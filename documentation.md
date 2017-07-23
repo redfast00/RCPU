@@ -1,6 +1,6 @@
 # Documentation for RCPU
 
-Everything fits inside 16-bits
+Instructions and memory cells fit inside 16-bits, specs heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
 
 ## General purpose registers
 
