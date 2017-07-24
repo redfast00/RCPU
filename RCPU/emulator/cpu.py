@@ -1,7 +1,7 @@
-import ram
-import registers
-import stack
-import alu
+from . import ram
+from . import alu
+from . import registers
+from . import stack
 from architecture import instruction_mapping
 
 import sys

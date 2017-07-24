@@ -1,4 +1,4 @@
-from architecture import alu_instruction_mapping
+from RCPU.architecture import alu_instruction_mapping
 class ALU:
     def __init__(self):
         pass
