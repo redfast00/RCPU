@@ -36,7 +36,7 @@ Instructions and memory cells fit inside 16-bits, specs heavily inspired by [16b
 |`POP`| `D`             | `XXXXXXXXXXDD1011` | Pop the stack into the destination register|
 |`SYS`|                 | `XXXXXXXXXXXX1100` | Perform a system call. This is described below in more detail.|
 |`HLT`|                 | `XXXXXXXXXXXX1101` | Program halt|
-|`JMP`| `M`             | `MMMMMMMMMMMM1110` | Jump to address in memory. Can only reference memory up to 0xFFF.|
+|`JMP`| `M`             | `MMMMMMMMMMXX1110` | Jump to address in memory. Can only reference memory up to 0x3FF.|
 |`JMR`| `S`             | `XXXXXXXXSSXX1111` | Jump to the address pointed at by the source register|
 
 ## Arithmetic Operation table
@@ -49,9 +49,9 @@ Instructions and memory cells fit inside 16-bits, specs heavily inspired by [16b
 |`Divide`     |`0011` |
 |`Left shift` |`0100` |
 |`Right shift`|`0101` |
-|`And`        |`0111` |
-|`Or`         |`1000` |
-|`Xor`        |`1001` |
-|`Not`        |`1010` |
+|`And`        |`0110` |
+|`Or`         |`0111` |
+|`Xor`        |`1000` |
+|`Not`        |`1001` |
 
 ## System calls

@@ -2,7 +2,7 @@ from . import ram
 from . import alu
 from . import registers
 from . import stack
-from architecture import instruction_mapping
+from RCPU.architecture import instruction_mapping
 
 import sys
 
@@ -13,7 +13,7 @@ class CPU:
         self.stack = stack.Stack()
         self.alu = alu.ALU()
     def debug(self):
-        print self.registers
+        print(self.registers)
     def fetch(self):
         '''Gets the instruction to execute'''
         return self.RAM.get(self.registers.ip)
@@ -29,9 +29,11 @@ class CPU:
     def step(self):
         '''Does one instruction cycle'''
         instruction = self.fetch()
+        # Increments instruction pointer after fetch and
+        #  before execute, so JMP works properly
+        self.registers.ip += 1
         opcode, arguments = self.decode(instruction)
         self.execute(opcode, arguments)
-        self.registers.ip += 1
     # Instructions
 
     def MOV(self, arguments):
@@ -100,7 +102,7 @@ class CPU:
         print("Terminating...")
         sys.exit(0)
     def JMP(self, arguments):
-        address = arguments
+        address = arguments >> 2
         self.registers.ip = address
     def JMR(self, arguments):
         source = (arguments >> 2) & 0b11
