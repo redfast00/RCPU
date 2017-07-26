@@ -1,7 +1,7 @@
 LABEL_CHAR = ':'
 
 def parse_resource(line):
-    parts = line.split(maxsplit=2)
+    parts = line.split(' ', 2)
     if len(parts) == 2:
         return parts[0], int(parts[1])
     elif len(parts) == 3 and parts[1] == 'string':
@@ -23,7 +23,7 @@ def is_reference(part):
     return part.startswith(".")
 
 def parse_instruction(line):
-    parts = line.split(' ', maxsplit=1)
+    parts = line.split(' ', 1)
     if len(parts) > 1:
         # Instruction with arguments
         instruction, arguments = parts

@@ -6,7 +6,7 @@ from RCPU.architecture import MAX_VALUE
 def create_resourcetable(data):
     resourcetable = {}
     for line in data:
-        name, value = parser.parse_resources(line)
+        name, value = parser.parse_resource(line)
         resourcetable[name] = value
 
 def expand(text):

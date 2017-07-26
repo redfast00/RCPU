@@ -4,7 +4,7 @@ def remove_comments(lines):
     return [ line for line in lines if not line.startswith(COMMENT_CHAR) ]
 
 def remove_whitespace(lines):
-    return [ line.strip() for line in lines]
+    return [ line.strip() for line in lines if line.strip()]
 
 def split_into_sections(lines):
     '''Splits lines into sections, expects lines to be sanitized'''
@@ -20,3 +20,8 @@ def split_into_sections(lines):
         data = lines[dataloc+1:textloc]
     text = lines[textloc+1:]
     return data, text
+
+def preprocess(lines):
+    lines = remove_whitespace(lines)
+    lines = remove_comments(lines)
+    return split_into_sections(lines)

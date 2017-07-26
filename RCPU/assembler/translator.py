@@ -1,7 +1,7 @@
 from RCPU.architecture import instruction_mapping, register_mapping, MAX_VALUE_LDV
 
-reverse_instruction_mapping = {i: b for b, i in instruction_mapping}
-reverse_register_mapping = {i: b for b, i in register_mapping}
+reverse_instruction_mapping = {i:b for b,i in instruction_mapping.items()}
+reverse_register_mapping = {i:b for b,i in register_mapping.items()}
 
 def reg_to_bin(reg):
     '''Converts a register (like 'A') to the register value '0b00'.'''
