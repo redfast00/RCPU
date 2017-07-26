@@ -1,29 +1,31 @@
 # Documentation for RCPU
 
-Instructions and memory cells fit inside 16-bits, specs heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
+This is a VM CPU emulator written in Python.
+The size of instructions and memory cells are 16 bits.
+The specs for this project (CPU instructions and architecture) are heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
 
 ## General purpose registers
 
-|Register    |Value  |
-|-------------|-------|
-|`A`        |`00` |
-|`B`   |`01` |
-|`C`   |`10` |
+|Register|Value|
+|--------|-----|
+|`A`     |`00` |
+|`B`     |`01` |
+|`C`     |`10` |
 |`D`     |`11` |
 
 ## Other registers
 
-|Register    |Purpose  |
-|-------------|-------|
-|`IP`        |`Instruction pointer` |
-|`SP`   |`Stack pointer` |
+|Register |Purpose              |
+|---------|---------------------|
+|`IP`     |`Instruction pointer`|
+|`SP`     |`Stack pointer`      |
 
 ## Instructions
 
 |Instruction|Arguments|16 bit representation |Description|
 |-----------|---------|-------------------------|-------------|
 |`MOV`| `D, S`          | `XXXXXXXXSSDD0000` | Move value at source register to destination register|
-|`LDV`| `D, V`          | `VVVVVVVVVVDD0001` | Load a value into destination register. |
+|`LDV`| `D, V`          | `VVVVVVVVVVDD0001` | Load a value into destination register. Max value is 0x3FF (1023) |
 |`LDA`| `D, M`          | `MMMMMMMMMMDD0010` | Load a value from memory into destination register|
 |`LDM`| `D, M`          | `MMMMMMMMMMDD0011` | Load the value in destination register into memory|
 |`LDR`| `D, S`          | `XXXXXXXXSSDD0100` | Load the value from memory pointed at by the source register into the destination register|

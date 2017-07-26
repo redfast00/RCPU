@@ -1,3 +1,8 @@
+MAX_VALUE = 0xFFFF
+MAX_VALUE_LDV = 0x3FF
+MAX_MEM_LDA = 0x3FF
+MAX_MEM_LDM = 0x3FF
+MAX_MEM_JMP = 0x3FF
 instruction_mapping = {
     0: "MOV",
     1: "LDV",
