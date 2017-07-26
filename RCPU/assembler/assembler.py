@@ -1,4 +1,5 @@
 from . import parser
+from . import translator
 from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
@@ -72,19 +73,31 @@ def generate_datasection(text, resourcetable, base_address=None):
             newarguments.append(argument)
         newtext.append(parser.unparse(instruction, newarguments))
     return newtext, datasection
+
+def translate_all(text):
+    binary = []
+    t = translator.InstructionTranslator
+    for line in text:
+        binary.append(t.translate(line))
+    return binary
+
 def assemble(data, text):
+    '''Assembles data and text sections into the binary'''
     # First step: create a resourcetable of data section
     resourcetable = create_resourcetable(data)
-    entrypoint = parser.parse_global(text[0])
     # Replace entrypoint with a JMP instruction to that label
     # TODO: replace this with a long jump in case entrypoint is above 0x3FF
+    entrypoint = parser.parse_global(text[0])
     text[0] = "JMP {label}".format(label=entrypoint)
-    # Expand text section
+    # Expand text section: turns all pseudo-instructions into real instructions
     text = expand_all(text)
     # Replace labels with their locations in the binary
     text = replace_labels(text)
     # Insert references to resourcetable
     text, datasection = generate_datasection(text, resourcetable)
-    # Translate instructions into machine code TODO
+    # Translate instructions into machine code
+    binary = translate_all(text)
+    binary += datasection
+    return binary
 
 
