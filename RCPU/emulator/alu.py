@@ -34,3 +34,8 @@ class ALU:
         return src ^ dst
     def NOT(self, arg, dst, src):
         return 0xFF - src
+    def INC(self, arg, dst, src):
+        return dst + 1
+    def DEC(self, arg, dst, src):
+        return dst - 1
+    #TODO: verify that these functions don't set registers to -1 for example

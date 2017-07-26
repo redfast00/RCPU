@@ -69,5 +69,10 @@ class ArithmeticExpander(BaseExpander):
     def NOT(arg):
         return ['ATH 0,{s},9,1,0'.format(s=arg[0])]
 
+    @BaseExpander.instruction
+    def INC(arg):
+        return ['ATH {d},0,10,0,0'.format(d=arg[0])]
 
-
+    @BaseExpander.instruction
+    def DEC(arg):
+        return ['ATH {d},0,11,0,0'.format(d=arg[0])]

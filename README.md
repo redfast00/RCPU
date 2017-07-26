@@ -55,5 +55,7 @@ The specs for this project (CPU instructions and architecture) are heavily inspi
 |`Or`         |`0111` |
 |`Xor`        |`1000` |
 |`Not`        |`1001` |
+|`Increment`  |`1010` |
+|`Decrement`  |`1011` |
 
 ## System calls

@@ -37,5 +37,7 @@ alu_instruction_mapping = {
     6: 'AND',
     7: 'OR',
     8: 'XOR',
-    9: 'NOT'
+    9: 'NOT',
+    10: "INC",
+    11: "DEC"
 }
