@@ -23,5 +23,4 @@ matrix:
       env: PYTEST=2.6.4
 install:
   - pip install -q pytest==$PYTEST
-  - pip install -q -e .
 script: py.test
