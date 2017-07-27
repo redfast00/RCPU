@@ -4,6 +4,7 @@ from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
 def create_resourcetable(data):
+    '''Creates a resourcetable from the datasection that maps a name (like .value) to a value (like 5).'''
     resourcetable = {}
     for line in data:
         name, value = parser.parse_resource(line)
@@ -37,6 +38,7 @@ def replace_labels(text):
     # Put all labels in dictionary
     for line in text:
         if parser.is_label(line):
+            # Add label to dictionary and don't copy it into the second pass
             labels[line] = current_location
         else:
             first_pass.append(line)
@@ -45,21 +47,20 @@ def replace_labels(text):
     for line in first_pass:
         assert parser.is_instruction(line)
         instruction, arguments = parser.parse_instruction(line)
-        newarguments = []
-        for argument in arguments:
-            if parser.is_label(argument):
-                argument = str(labels[argument])
-            newarguments.append(argument)
-        translated = parser.unparse_instruction(instruction, newarguments)
+        # Replace labels with their location in memory
+        arguments = [str(labels[arg]) if parser.is_label(arg) else arg for arg in arguments]
+        translated = parser.unparse_instruction(instruction, arguments)
         second_pass.append(translated)
     return second_pass
 
 def generate_datasection(text, resourcetable, base_address=None):
-    #TODO make sure that if label is used twice, it points to the same data
+    '''Creates the binary datasection at the end of a binary and
+        converts symbolic values in text to values referring to memory'''
     if base_address is None:
         base_address = len(text)
     newtext = []
     datasection = []
+    used_resourcetable = {}
     for line in text:
         # Should all be instructions by now
         instruction, arguments = parser.parse_instruction(line)
@@ -71,10 +72,13 @@ def generate_datasection(text, resourcetable, base_address=None):
                     assert 0 <= value and value <= MAX_VALUE
                     argument = str(value)
                 elif type(value) == str:
-                    argument = str(len(datasection) + base_address)
-                    for char in value:
-                        datasection.append(ord(char))
-                    datasection.append(0)
+                    if value not in used_resourcetable:
+                        address = len(datasection) + base_address
+                        for char in value:
+                            datasection.append(ord(char))
+                        datasection.append(0)
+                        used_resourcetable[value] = address
+                    argument = str(used_resourcetable[value])
                 else:
                     raise Exception('Unknown type') #TODO: make a special class for assembler errors
             newarguments.append(argument)
@@ -82,6 +86,7 @@ def generate_datasection(text, resourcetable, base_address=None):
     return newtext, datasection
 
 def translate_all(text):
+    '''Translates all textual instructions in the text section into binary instructions.'''
     binary = []
     t = translator.InstructionTranslator
     for line in text:
@@ -90,6 +95,7 @@ def translate_all(text):
     return binary
 
 def replace_entrypoint(text):
+    '''Replaces the entrypoint (.global) with a JMP to the location of the entrypoint.'''
     # TODO: replace this with a long jump in case entrypoint is above 0x3FF
     entrypoint = parser.parse_global(text[0])
     text[0] = "JMP {label}".format(label=entrypoint)

@@ -23,4 +23,8 @@ matrix:
       env: PYTEST=2.6.4
 install:
   - pip install -q pytest==$PYTEST
-script: py.test
+  - pip install -r requirements.txt
+script:
+    - py.test --cov=./
+after_success:
+    - codecov

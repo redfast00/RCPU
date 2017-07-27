@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/redfast00/RCPU.svg?branch=master)](https://travis-ci.org/redfast00/RCPU)
+[![codecov](https://codecov.io/gh/redfast00/RCPU/branch/master/graph/badge.svg)](https://codecov.io/gh/redfast00/RCPU)
 # Documentation for RCPU
 
 This is a VM CPU emulator written in Python.
@@ -60,12 +61,41 @@ The specs for this project (CPU instructions and architecture) are heavily inspi
 |`Decrement`  |`1011` |
 
 ## System calls
-TODO
+Syscall numbers and arguments are passed via the stack. For example the assembly code to call `printf '%d' 20`:
+```
+.data
+  .format string '%d'
+  .printf 0
+
+.text
+  .global main:
+
+main:
+  ; Push 20
+  LDV A, 20
+  PSH A
+  ; Push the address of the format string
+  LDV A, .format
+  PSH A
+  ; Push the syscall number
+  LDV A, .printf
+  PSH A
+  sys
+  hlt
+```
+
+### Syscall table
+
+| Number | Function | Arguments  | Notes                                                                              |
+|-------:|----------|------------|------------------------------------------------------------------------------------|
+|    `0` | `printf` | `fmt, ...` | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers.  |
 
 # Roadmap
 
-- Assembler: add support for including files (*.inc)
-- CPU: add syscalls
-- Make a compiler for a certain language
-- Assembler: add support for macro's
-- Moar tests
+- [ ] Assembler: add support for including files (*.inc)
+- [ ] CPU: moar syscalls
+    - [ ] reading stdin
+    - [ ] reading/writing to files
+- [ ] Make a compiler for a certain language
+- [ ] Assembler: add support for macro's
+- [ ] Moar tests
