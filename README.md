@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/redfast00/RCPU.svg?branch=master)](https://travis-ci.org/redfast00/RCPU)
 # Documentation for RCPU
 
 This is a VM CPU emulator written in Python.
