@@ -1,10 +1,10 @@
-from RCPU.architecture import alu_instruction_mapping
+from RCPU.architecture import alu_instruction_mapping, MAX_VALUE
 class ALU:
     def __init__(self):
         pass
     def calculate(self, subinstruction, destination, source):
         opcode, arguments = self.decode(subinstruction)
-        return self.execute(opcode, arguments, destination, source)
+        return self.execute(opcode, arguments, destination, source) % MAX_VALUE
     def decode(self, subinstruction):
         '''Decodes the instruction as opcode, arguments'''
         opcode = alu_instruction_mapping[subinstruction & 0b1111]
@@ -38,4 +38,3 @@ class ALU:
         return dst + 1
     def DEC(self, arg, dst, src):
         return dst - 1
-    #TODO: verify that these functions don't set registers to -1 for example
