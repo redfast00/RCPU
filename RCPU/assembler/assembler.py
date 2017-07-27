@@ -8,6 +8,7 @@ def create_resourcetable(data):
     for line in data:
         name, value = parser.parse_resource(line)
         resourcetable[name] = value
+    return resourcetable
 
 def expand(text):
     '''Expands pseudo-instructions into real instructions, supports symbolic arguments'''
@@ -44,12 +45,17 @@ def replace_labels(text):
     for line in first_pass:
         assert parser.is_instruction(line)
         instruction, arguments = parser.parse_instruction(line)
-        arguments = [ labels[argument] for argument in arguments if parser.is_label(argument) ]
-        translated = parser.unparse_instruction(instruction, arguments)
+        newarguments = []
+        for argument in arguments:
+            if parser.is_label(argument):
+                argument = str(labels[argument])
+            newarguments.append(argument)
+        translated = parser.unparse_instruction(instruction, newarguments)
         second_pass.append(translated)
     return second_pass
 
 def generate_datasection(text, resourcetable, base_address=None):
+    #TODO make sure that if label is used twice, it points to the same data
     if base_address is None:
         base_address = len(text)
     newtext = []
@@ -65,39 +71,26 @@ def generate_datasection(text, resourcetable, base_address=None):
                     assert 0 < value and value < MAX_VALUE
                     argument = str(value)
                 elif type(value) == str:
-                    argument = len(datasection) + base_address
+                    argument = str(len(datasection) + base_address)
                     for char in value:
                         datasection.append(ord(char))
+                    datasection.append(0)
                 else:
                     raise Exception('Unknown type') #TODO: make a special class for assembler errors
             newarguments.append(argument)
-        newtext.append(parser.unparse(instruction, newarguments))
+        newtext.append(parser.unparse_instruction(instruction, newarguments))
     return newtext, datasection
 
 def translate_all(text):
     binary = []
     t = translator.InstructionTranslator
     for line in text:
-        binary.append(t.translate(line))
+        instruction, arguments = parser.parse_instruction(line)
+        binary.append(t.translate(instruction, arguments))
     return binary
 
-def assemble(data, text):
-    '''Assembles data and text sections into the binary'''
-    # First step: create a resourcetable of data section
-    resourcetable = create_resourcetable(data)
-    # Replace entrypoint with a JMP instruction to that label
+def replace_entrypoint(text):
     # TODO: replace this with a long jump in case entrypoint is above 0x3FF
     entrypoint = parser.parse_global(text[0])
     text[0] = "JMP {label}".format(label=entrypoint)
-    # Expand text section: turns all pseudo-instructions into real instructions
-    text = expand_all(text)
-    # Replace labels with their locations in the binary
-    text = replace_labels(text)
-    # Insert references to resourcetable
-    text, datasection = generate_datasection(text, resourcetable)
-    # Translate instructions into machine code
-    binary = translate_all(text)
-    binary += datasection
-    return binary
-
-
+    return text

@@ -36,4 +36,7 @@ def parse_instruction(line):
     return instruction.upper(), arguments
 
 def unparse_instruction(instruction, arguments):
-    return instruction + ','.join(arguments)
+    if arguments:
+        return instruction + ' ' + ','.join(arguments)
+    else:
+        return instruction

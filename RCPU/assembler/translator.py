@@ -1,11 +1,18 @@
-from RCPU.architecture import instruction_mapping, register_mapping, MAX_VALUE_LDV
+import RCPU.architecture as arch
 
-reverse_instruction_mapping = {i:b for b,i in instruction_mapping.items()}
-reverse_register_mapping = {i:b for b,i in register_mapping.items()}
+reverse_instruction_mapping = {i:b for b,i in arch.instruction_mapping.items()}
+reverse_register_mapping = {i:b for b,i in arch.register_mapping.items()}
 
 def reg_to_bin(reg):
     '''Converts a register (like 'A') to the register value '0b00'.'''
-    return reverse_register_mapping[reg]
+    try:
+        return reverse_register_mapping[reg.upper()]
+    # Hardcoded unused registers in expanders
+    except KeyError as k:
+        if reg == '0':
+            return 0
+        else:
+            raise
 
 class InstructionTranslator:
     '''Translates instructions into binary. Doesn't support symbolic arguments'''
@@ -21,43 +28,43 @@ class InstructionTranslator:
         raise Exception("Error in translating binary") #TODO make special error class
 
     @classmethod
-    def MOV(cls, arguments):
+    def MOV(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
         return D | (S << 2)
 
     @classmethod
-    def LDV(cls, arguments):
+    def LDV(cls, arg):
         D = reg_to_bin(arg[0])
         V = int(arg[1])
-        if V > MAX_VALUE_LDV or V < 0:
+        if V > arch.MAX_VALUE_LDV or V < 0:
             cls.error()
         return D | (V << 2)
 
     @classmethod
-    def LDA(cls, arguments):
+    def LDA(cls, arg):
         D = reg_to_bin(arg[0])
         M = int(arg[1])
-        if M > MAX_MEM_LDA or M < 0:
+        if M > arch.MAX_MEM_LDA or M < 0:
             cls.error()
         return D | (M << 2)
 
     @classmethod
-    def LDM(cls, arguments):
+    def LDM(cls, arg):
         D = reg_to_bin(arg[0])
         M = int(arg[1])
-        if M > MAX_MEM_LDM or M < 0:
+        if M > arch.MAX_MEM_LDM or M < 0:
             cls.error()
         return D | (M << 2)
 
     @classmethod
-    def LDR(cls, arguments):
+    def LDR(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
         return D | (S << 2)
 
     @classmethod
-    def ATH(cls, arguments):
+    def ATH(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
         OP = int(arg[2]) # Just O might be confused with 0
@@ -72,46 +79,46 @@ class InstructionTranslator:
         return D | (S << 2) | (OP << 4) | (M << 8) | (B << 9)
 
     @classmethod
-    def CAL(cls, arguments):
+    def CAL(cls, arg):
         D = reg_to_bin(arg[0])
         return D
 
     @classmethod
-    def RET(cls, arguments):
+    def RET(cls, arg):
         return 0
 
     @classmethod
-    def JLT(cls, arguments):
+    def JLT(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
         return D | (S << 2)
 
     @classmethod
-    def PSH(cls, arguments):
+    def PSH(cls, arg):
         S = reg_to_bin(arg[0])
         return S << 2
 
     @classmethod
-    def POP(cls, arguments):
+    def POP(cls, arg):
         D = reg_to_bin(arg[0])
         return D
 
     @classmethod
-    def SYS(cls, arguments):
+    def SYS(cls, arg):
         return 0
 
     @classmethod
-    def HLT(cls, arguments):
+    def HLT(cls, arg):
         return 0
 
     @classmethod
-    def JMP(cls, arguments):
+    def JMP(cls, arg):
         M = int(arg[0])
-        if M > MAX_MEM_JMP or M < 0:
+        if M > arch.MAX_MEM_JMP or M < 0:
             cls.error()
         return (M << 2)
 
     @classmethod
-    def JMR(cls, arguments):
+    def JMR(cls, arg):
         S = reg_to_bin(arg[0])
         return S << 2
