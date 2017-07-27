@@ -14,7 +14,9 @@ class Kernel:
 
     def syscall(self):
         call_number = self.stack.pop()
-        self.call_syscall_by_number(call_number)
+        # This return value only exists to make testing easier
+        return self.call_syscall_by_number(call_number)
+
     def call_syscall_by_number(self, number):
         return getattr(self, "syscall_" + str(number))()
 
@@ -31,11 +33,12 @@ class Kernel:
                 elif next_char == 'd':
                     result += str(self.stack.pop())
                 elif next_char == 's':
-                    result += read_string(self.stack.pop())
+                    result += self.read_string(self.stack.pop())
                 else:
                     raise Exception("Error parsing: '{}'".format(format_string))
             else:
                 result += char
         print(result)
+        return result
 
 

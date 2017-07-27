@@ -13,8 +13,6 @@ class CPU:
         self.alu = alu.ALU()
         self.kernel = kernel.Kernel(self.RAM, self.stack)
         self.running = True
-    def debug(self):
-        print(self.registers)
     def fetch(self):
         '''Gets the instruction to execute'''
         return self.RAM.get(self.registers.ip)
@@ -35,8 +33,10 @@ class CPU:
         self.registers.ip += 1
         opcode, arguments = self.decode(instruction)
         self.execute(opcode, arguments)
-    # Instructions
 
+    ######################
+    #    Instructions    #
+    ######################
     def MOV(self, arguments):
         destination = arguments & 0b11
         source = (arguments >> 2) & 0b11
@@ -104,10 +104,3 @@ class CPU:
     def JMR(self, arguments):
         source = (arguments >> 2) & 0b11
         self.registers.ip = self.registers.get(source)
-
-if __name__ == '__main__':
-    c = CPU()
-    c.RAM.load([0b1010101010000001])
-    c.step()
-    c.debug()
-
