@@ -2,16 +2,17 @@ from . import ram
 from . import alu
 from . import registers
 from . import stack
+from . import kernel
 from RCPU.architecture import instruction_mapping
-
-import sys
 
 class CPU:
     def __init__(self):
-        self.RAM = ram.RAM(2^16)
+        self.RAM = ram.RAM(2**16)
         self.registers = registers.Registers()
-        self.stack = stack.Stack()
+        self.stack = stack.Stack(self.registers)
         self.alu = alu.ALU()
+        self.kernel = kernel.Kernel(self.RAM, self.stack)
+        self.running = True
     def debug(self):
         print(self.registers)
     def fetch(self):
@@ -90,17 +91,13 @@ class CPU:
     def PSH(self, arguments):
         source = (arguments >> 2) & 0b11
         self.stack.push(self.registers.get(source))
-        self.registers.sp += 1
     def POP(self, arguments):
         destination = arguments & 0b11
         self.registers.set(destination, self.stack.pop())
-        self.registers.sp -= 1
     def SYS(self, arguments):
-        syscall = arguments
-        # TODO
+        self.kernel.syscall()
     def HLT(self, arguments):
-        print("Terminating...")
-        sys.exit(0)
+        self.running = False
     def JMP(self, arguments):
         address = arguments >> 2
         self.registers.ip = address

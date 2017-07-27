@@ -10,3 +10,5 @@ class RAM:
         '''Copies given memory into RAM'''
         size = len(memory_to_load)
         self._memory[base_address:base_address+size] = memory_to_load[:]
+    def get_raw(self):
+        return self._memory
