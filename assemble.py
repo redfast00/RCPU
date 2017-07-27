@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description='Assemble some assembly code.')
 parser.add_argument('--infile', type=argparse.FileType('r'), required=True)
 parser.add_argument('--outfile', type=argparse.FileType('wb'), required=True)
 parser.add_argument('--quiet', action='store_false')
-
+# TODO implement quietness
 args = parser.parse_args()
 
 lines = args.infile.readlines()

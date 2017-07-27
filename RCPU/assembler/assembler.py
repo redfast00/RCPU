@@ -68,7 +68,7 @@ def generate_datasection(text, resourcetable, base_address=None):
             if parser.is_reference(argument):
                 value = resourcetable[argument]
                 if type(value) == int:
-                    assert 0 < value and value < MAX_VALUE
+                    assert 0 <= value and value <= MAX_VALUE
                     argument = str(value)
                 elif type(value) == str:
                     argument = str(len(datasection) + base_address)
