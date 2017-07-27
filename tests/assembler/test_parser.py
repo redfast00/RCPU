@@ -21,3 +21,15 @@ def test_parse_instruction():
     assert ("PSH", ["A"]) == p.parse_instruction("psh A")
     assert ("LDV", ["D", "done:"]) == p.parse_instruction("ldv D, done:")
     assert ("LDV", ["b", ".times"]) == p.parse_instruction("ldv b, .times")
+
+def test_parse_global():
+    assert "main:" == p.parse_global(".global main:")
+
+def test_is_reference():
+    assert not p.is_reference("50")
+    assert p.is_reference(".test")
+
+def test_unparse_instruction():
+    assert "MOV A,B" == p.unparse_instruction("MOV", ["A","B"])
+    assert "SYS" == p.unparse_instruction("SYS", [])
+    assert "PSH A" == p.unparse_instruction("PSH", ["A"])
