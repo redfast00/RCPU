@@ -1,3 +1,5 @@
+class KernelException(Exception):
+    pass
 
 class Kernel:
     def __init__(self, ram, stack):
@@ -35,7 +37,7 @@ class Kernel:
                 elif next_char == 's':
                     result += self.read_string(self.stack.pop())
                 else:
-                    raise Exception("Error parsing: '{}'".format(format_string))
+                    raise KernelException("Error in printf: '{}'".format(format_string))
             else:
                 result += char
         print(result)

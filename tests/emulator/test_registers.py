@@ -8,3 +8,9 @@ def test_init():
     r = registers.Registers()
     for i in range(4):
         assert r.get(i) == 0
+
+def test_str():
+    r = registers.Registers()
+    for i in range(4):
+        r.set(i, i)
+    assert str(r) == "[0, 1, 2, 3] IP=0, SP=0"
