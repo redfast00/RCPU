@@ -60,3 +60,12 @@ The specs for this project (CPU instructions and architecture) are heavily inspi
 |`Decrement`  |`1011` |
 
 ## System calls
+TODO
+
+# Roadmap
+
+- Assembler: add support for including files (*.inc)
+- CPU: add syscalls
+- Make a compiler for a certain language
+- Assembler: add support for macro's
+- Moar tests
