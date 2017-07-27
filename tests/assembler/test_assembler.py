@@ -1,4 +1,5 @@
 import RCPU.assembler.assembler as a
+import pytest
 
 def test_create_resourcetable():
     data = [".format string 'test'", '.test string "test"', '.number 5']
@@ -44,3 +45,16 @@ def test_generate_datasection():
     t, d = a.generate_datasection(text, resourcetable)
     assert t == ["MOV A,42"]
     assert d == []
+    # Check that an unsupported type in the resourcetable raises an Exception
+    resourcetable = {'.first': [1, 2, 3]}
+    text = ["MOV A, .first"]
+    with pytest.raises(Exception) as excinfo:
+        t, d = a.generate_datasection(text, resourcetable)
+    assert "Unsupported resource type" in str(excinfo.value)
+
+def test_replace_entrypoint():
+    text = [".global main:", "main:", "INC A", "JMP main:"]
+    expected = ["JMP main:", "main:", "INC A", "JMP main:"]
+    assert a.replace_entrypoint(text) == expected
+
+#TODO test expand, expand_all and translate with execution

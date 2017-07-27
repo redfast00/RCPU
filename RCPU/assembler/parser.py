@@ -1,3 +1,5 @@
+from . import utils
+
 LABEL_CHAR = ':'
 
 def parse_resource(line):
@@ -6,6 +8,8 @@ def parse_resource(line):
         return parts[0], int(parts[1])
     elif len(parts) == 3 and parts[1] == 'string':
         return parts[0], parts[2][1:-1]
+    else:
+        raise utils.AssemblerError("Unknown resource type in .data")
 
 def parse_global(line):
     assert line.startswith(".global")

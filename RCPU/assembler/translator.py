@@ -1,5 +1,5 @@
 import RCPU.architecture as arch
-
+from . import utils
 reverse_instruction_mapping = {i:b for b,i in arch.instruction_mapping.items()}
 reverse_register_mapping = {i:b for b,i in arch.register_mapping.items()}
 
@@ -12,7 +12,7 @@ def reg_to_bin(reg):
         if reg == '0':
             return 0
         else:
-            raise
+            raise utils.AssemblerException('Unknown register: {}'.format(reg))
 
 class InstructionTranslator:
     '''Translates instructions into binary. Doesn't support symbolic arguments'''
@@ -22,10 +22,6 @@ class InstructionTranslator:
         binary_opcode = reverse_instruction_mapping[instruction.upper()]
         binary_arguments = getattr(cls, instruction)(arguments) << 4
         return binary_opcode | binary_arguments
-
-    @staticmethod
-    def error():
-        raise Exception("Error in translating binary") #TODO make special error class
 
     @classmethod
     def MOV(cls, arg):
@@ -46,7 +42,7 @@ class InstructionTranslator:
         D = reg_to_bin(arg[0])
         M = int(arg[1])
         if M > arch.MAX_MEM_LDA or M < 0:
-            cls.error()
+            raise utils.AssemblerException('LDA: Memory address too small or too big')
         return D | (M << 2)
 
     @classmethod
@@ -54,7 +50,7 @@ class InstructionTranslator:
         D = reg_to_bin(arg[0])
         M = int(arg[1])
         if M > arch.MAX_MEM_LDM or M < 0:
-            cls.error()
+            raise utils.AssemblerException('LDM: Memory address too small or too big')
         return D | (M << 2)
 
     @classmethod
@@ -71,11 +67,11 @@ class InstructionTranslator:
         M = int(arg[3])
         B = int(arg[4])
         if OP > 0b1111 or OP < 0:
-            cls.error()
+            raise utils.AssemblerException('ATH: OP too small or too big')
         if M not in [0b0, 0b1]:
-            cls.error()
+            raise utils.AssemblerException('ATH: M too small or too big')
         if B > 0b111 or B < 0:
-            cls.error()
+            raise utils.AssemblerException('ATH: B too small or too big')
         return D | (S << 2) | (OP << 4) | (M << 8) | (B << 9)
 
     @classmethod
@@ -115,7 +111,7 @@ class InstructionTranslator:
     def JMP(cls, arg):
         M = int(arg[0])
         if M > arch.MAX_MEM_JMP or M < 0:
-            cls.error()
+            raise utils.AssemblerException('JMP: Memory address too small or too big')
         return (M << 2)
 
     @classmethod

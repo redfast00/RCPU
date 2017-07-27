@@ -1,4 +1,5 @@
 import RCPU.assembler.parser as p
+import pytest
 
 def test_is_label():
     assert(p.is_label('label:'))
@@ -13,6 +14,9 @@ def test_parse_resource():
     assert (".test", 5) == p.parse_resource(".test 5")
     assert (".str", "test") == p.parse_resource(".str string 'test'")
     assert (".tst", " *1* ") == p.parse_resource(".tst string ' *1* '")
+    with pytest.raises(Exception) as excinfo:
+        p.parse_resource(".test list [1,2]")
+        assert "Unknown resource type" in str(excinfo.value)
 
 def test_parse_instruction():
     assert ("MOV", ["B", "A"]) == p.parse_instruction("MOV B,A")

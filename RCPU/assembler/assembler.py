@@ -1,5 +1,6 @@
 from . import parser
 from . import translator
+from . import utils
 from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
@@ -80,7 +81,7 @@ def generate_datasection(text, resourcetable, base_address=None):
                         used_resourcetable[value] = address
                     argument = str(used_resourcetable[value])
                 else:
-                    raise Exception('Unknown type') #TODO: make a special class for assembler errors
+                    raise utils.AssemblerException('Unsupported resource type')
             newarguments.append(argument)
         newtext.append(parser.unparse_instruction(instruction, newarguments))
     return newtext, datasection
@@ -98,5 +99,5 @@ def replace_entrypoint(text):
     '''Replaces the entrypoint (.global) with a JMP to the location of the entrypoint.'''
     # TODO: replace this with a long jump in case entrypoint is above 0x3FF
     entrypoint = parser.parse_global(text[0])
-    text[0] = "JMP {label}".format(label=entrypoint)
+    text[0] = parser.unparse_instruction("JMP", [entrypoint])
     return text
