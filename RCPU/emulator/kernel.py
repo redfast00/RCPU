@@ -1,3 +1,5 @@
+import sys
+
 class KernelException(Exception):
     pass
 
@@ -5,6 +7,10 @@ class Kernel:
     def __init__(self, ram, stack):
         self.RAM = ram
         self.stack = stack
+        self.filenumber_mapping = {
+            0: sys.stdin,
+            1: sys.stdout
+        }
 
     def read_string(self, memory_address):
         result = ''
@@ -13,6 +19,17 @@ class Kernel:
                 break
             result += chr(charcode)
         return result
+
+    def write_string(self, memory_address, string):
+        for i, char in enumerate(string):
+            self.RAM.set(memory_address + i, ord(char))
+        self.RAM.set(memory_address + len(string), 0)
+
+    def get_file(self, filenumber):
+        if filenumber not in self.filenumber_mapping.keys():
+            raise NotImplementedError
+        else:
+            return self.filenumber_mapping[filenumber]
 
     def syscall(self):
         call_number = self.stack.pop()
@@ -23,7 +40,10 @@ class Kernel:
         return getattr(self, "syscall_" + str(number))()
 
     def syscall_0(self):
-        '''printf: formatstring, [arguments]'''
+        '''printf: formatstring, [arguments]
+        Prints the formatstring formatted with values from stack to stdout.
+        This only accepts %s, %d and %% in the format string.
+        '''
         format_string = self.read_string(self.stack.pop())
         iterator = iter(format_string)
         result = ''
@@ -40,7 +60,39 @@ class Kernel:
                     raise KernelException("Error in printf: '{}'".format(format_string))
             else:
                 result += char
-        print(result)
+        sys.stdout.write(result)
         return result
 
+    def syscall_1(self):
+        '''fgets: *str, size, stream_num
+        Gets a string from the stream specified by stream_num. Stops when either
+         size - 1 are read (keep place for the NUL), a newline is encountered or
+         the end-of-file is reached.
+        The string is then placed in memory, starting at *str.
+        Returns the number of characters read.
+        '''
+        stream_num = self.stack.pop()
+        infile = self.get_file(stream_num)
+        size = self.stack.pop()
+        memory_addr = self.stack.pop()
+        result = ''
+        read = 0
+
+        while True:
+            c = infile.read(1)
+            if not c:
+                # EOF encountered
+                break
+            elif c == '\n':
+                # End of the line
+                break
+            elif read >= size - 1:
+                # Maximum size reached
+                break
+            else:
+                result += c
+                read += 1
+        self.write_string(memory_addr, result)
+        # Return number of characters read
+        self.stack.push(read)
 

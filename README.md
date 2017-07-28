@@ -86,16 +86,20 @@ main:
 
 ### Syscall table
 
-| Number | Function | Arguments  | Notes                                                                              |
-|-------:|----------|------------|------------------------------------------------------------------------------------|
-|    `0` | `printf` | `fmt, ...` | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers.  |
+| Number | Function | Arguments                | Notes                                                                              |
+|--------|----------|--------------------------|------------------------------------------------------------------------------------|
+| `0`    | `printf` | `fmt, ...`               | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers.  |
+| `1`    | `fgets`  | `*str, size, stream_num` | Only supports stdin for now.                                                       |
 
 # Roadmap
 
 - [ ] Assembler: add support for including files (*.inc)
 - [ ] CPU: moar syscalls
-    - [ ] reading stdin
+    - [x] reading stdin
+    - [ ] parsing input from stdin
     - [ ] reading/writing to files
-- [ ] Make a compiler for a certain language
+- [ ] Make a compiler for a certain language (maybe Fortran?)
 - [ ] Assembler: add support for macro's
-- [ ] Moar tests
+- [ ] More tests
+- [ ] Assembler: add more expanders
+    - [ ] Instructions for conditional branching: NEQ, ...
