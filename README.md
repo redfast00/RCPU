@@ -103,3 +103,4 @@ main:
 - [ ] More tests
 - [ ] Assembler: add more expanders
     - [ ] Instructions for conditional branching: NEQ, ...
+- [ ] Assembler: make way to reserve memory for strings

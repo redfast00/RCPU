@@ -27,6 +27,7 @@ text = assembler.expand_all(text)
 text = assembler.replace_labels(text)
 # Insert references to resourcetable
 text, datasection = assembler.generate_datasection(text, resourcetable)
+pprint(text)
 # Translate instructions into machine code
 binary = assembler.translate_all(text)
 binary += datasection

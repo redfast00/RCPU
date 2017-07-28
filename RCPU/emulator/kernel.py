@@ -27,7 +27,7 @@ class Kernel:
 
     def get_file(self, filenumber):
         if filenumber not in self.filenumber_mapping.keys():
-            raise NotImplementedError
+            raise NotImplementedError("File descriptor: {}".format(filenumber))
         else:
             return self.filenumber_mapping[filenumber]
 
@@ -71,10 +71,10 @@ class Kernel:
         The string is then placed in memory, starting at *str.
         Returns the number of characters read.
         '''
+        memory_addr = self.stack.pop()
+        size = self.stack.pop()
         stream_num = self.stack.pop()
         infile = self.get_file(stream_num)
-        size = self.stack.pop()
-        memory_addr = self.stack.pop()
         result = ''
         read = 0
 

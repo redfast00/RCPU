@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from .utils import init_kernel
 
 def test_read():
@@ -14,7 +15,7 @@ def test_read():
 
 def test_cut_off_at_size():
     size = 10
-    k = init_kernel(stdin="A" * 20)
+    k = init_kernel(stdin=u"A" * 20)
     k.stack.push(0)    # Push stream_num
     k.stack.push(size) # Push size
     k.stack.push(0)    # Push location in memory to write the string to
