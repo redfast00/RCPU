@@ -87,7 +87,7 @@ class CPU:
         source = (arguments >> 2) & 0b11
         a_register = 0b00
         if self.registers.get(a_register) < self.registers.get(destination):
-            self.registers.ip = self.RAM.get(self.registers.get(source))
+            self.registers.ip = self.registers.get(source)
     def PSH(self, arguments):
         source = (arguments >> 2) & 0b11
         self.stack.push(self.registers.get(source))
