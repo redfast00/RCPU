@@ -2,18 +2,25 @@ import RCPU.emulator.cpu as cpu
 
 import argparse
 import struct
+import logging
 
-parser = argparse.ArgumentParser(description='Execute a binary.')
+def unpack(raw):
+    '''Unpacks raw into a list of binary instructions'''
+    return struct.unpack("H" * (len(raw) / 2), raw)
 
-parser.add_argument('--infile', type=argparse.FileType('rb'), required=True)
-parser.add_argument('--quiet', action='store_false')
-args = parser.parse_args()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Execute a binary.')
+    parser.add_argument('infile', type=argparse.FileType('rb'))
+    parser.add_argument('--debug', action='store_const', const=logging.DEBUG, default=logging.WARNING, dest='loglevel')
+    args = parser.parse_args()
+    logging.basicConfig(level=args.loglevel, format='%(levelname)s: %(message)s')
 
-binary = args.infile.read()
-# Load binary into tuple
-to_load = struct.unpack("H" * (len(binary) / 2), binary)
-c = cpu.CPU()
-c.RAM.load(to_load)
-while c.running:
-    c.step()
-    print(c.registers)
+    # Load binary from disk
+    filecontent = args.infile.read()
+    binary = unpack(filecontent)
+    c = cpu.CPU()
+    c.RAM.load(binary)
+    # Main CPU loop
+    while c.running:
+        c.step()
+        logging.debug(c.registers)

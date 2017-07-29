@@ -6,6 +6,20 @@ This is a VM CPU emulator written in Python.
 The size of instructions and memory cells are 16 bits.
 The specs for this project (CPU instructions and architecture) are heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
 
+## Installation and usage
+
+Just clone the GitHub repo
+```
+git clone https://github.com/redfast00/RCPU
+```
+Assemble an assembly file with:
+```
+python assemble.py asm/printf.asm printf.out
+```
+and then execute it with:
+```
+python emulate.py printf.out
+```
 ## General purpose registers
 
 |Register|Value|
@@ -93,14 +107,17 @@ main:
 
 # Roadmap
 
-- [ ] Assembler: add support for including files (*.inc)
-- [ ] CPU: moar syscalls
+- [ ] Assembler
+    - [ ] add support for including files (\*.inc), write .inc file for all syscalls
+    - [ ] add support for macro's
+    - [ ] add more expanders
+        - [ ] conditional branching (NEQ, ...)
+    - [ ] add a way to reserve memory for strings
+    - [ ] add support for escaped characters in string
+- [ ] CPU: add more syscalls
     - [x] reading stdin
     - [ ] parsing input from stdin
     - [ ] reading/writing to files
-- [ ] Make a compiler for a certain language (maybe Fortran?)
-- [ ] Assembler: add support for macro's
-- [ ] More tests
-- [ ] Assembler: add more expanders
-    - [ ] Instructions for conditional branching: NEQ, ...
-- [ ] Assembler: make way to reserve memory for strings
+- [ ] Make a compiler for a certain language (maybe a language like Forth?)
+- [ ] Write more tests, get coverage to 100%
+    - [ ] Assembler and emulator scripts
