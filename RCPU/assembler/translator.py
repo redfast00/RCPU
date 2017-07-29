@@ -34,7 +34,7 @@ class InstructionTranslator:
         D = reg_to_bin(arg[0])
         V = int(arg[1])
         if V > arch.MAX_VALUE_LDV or V < 0:
-            cls.error()
+            raise utils.AssemblerException('LDV: Memory address too small or too big')
         return D | (V << 2)
 
     @classmethod
@@ -55,6 +55,12 @@ class InstructionTranslator:
 
     @classmethod
     def LDR(cls, arg):
+        D = reg_to_bin(arg[0])
+        S = reg_to_bin(arg[1])
+        return D | (S << 2)
+
+    @classmethod
+    def LDP(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
         return D | (S << 2)
