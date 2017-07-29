@@ -14,12 +14,22 @@ git clone https://github.com/redfast00/RCPU
 ```
 Assemble an assembly file with:
 ```
-python assemble.py asm/printf.asm printf.out
+python -m RCPU.assemble asm/printf.asm printf.out
 ```
 and then execute it with:
 ```
-python emulate.py printf.out
+python -m RCPU.emulate printf.out
 ```
+If you want easier aliases, you can install the project with:
+```
+python setup.py install
+```
+and then you can run the commands like:
+```
+assemble asm/printf.asm printf.out
+emulate printf.out
+```
+
 ## General purpose registers
 
 |Register|Value|

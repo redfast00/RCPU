@@ -36,7 +36,7 @@ def assemble(lines):
 def pack_binary(binary):
     return [struct.pack('H', instruction) for instruction in binary]
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='Assemble some assembly code.')
 
     parser.add_argument('infile', type=argparse.FileType('r'))
@@ -50,3 +50,5 @@ if __name__ == '__main__':
     packed = pack_binary(assembled)
     for instruction in packed:
         args.outfile.write(instruction)
+if __name__ == '__main__':
+    main()

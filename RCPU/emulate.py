@@ -8,7 +8,7 @@ def unpack(raw):
     '''Unpacks raw into a list of binary instructions'''
     return struct.unpack("H" * (len(raw) / 2), raw)
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='Execute a binary.')
     parser.add_argument('infile', type=argparse.FileType('rb'))
     parser.add_argument('--debug', action='store_const', const=logging.DEBUG, default=logging.WARNING, dest='loglevel')
@@ -24,3 +24,5 @@ if __name__ == '__main__':
     while c.running:
         c.step()
         logging.debug(c.registers)
+if __name__ == '__main__':
+    main()
