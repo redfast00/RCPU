@@ -8,6 +8,12 @@ def unpack(raw):
     '''Unpacks raw into a list of binary instructions'''
     return struct.unpack("H" * (len(raw) / 2), raw)
 
+def cpu_loop(c):
+    while c.running:
+        c.step()
+        logging.debug(c.registers)
+
+
 def main():
     parser = argparse.ArgumentParser(description='Execute a binary.')
     parser.add_argument('infile', type=argparse.FileType('rb'))
@@ -15,14 +21,13 @@ def main():
     args = parser.parse_args()
     logging.basicConfig(level=args.loglevel, format='%(levelname)s: %(message)s')
 
-    # Load binary from disk
+    # Load binary from disk into CPU
     filecontent = args.infile.read()
-    binary = unpack(filecontent)
     c = cpu.CPU()
-    c.RAM.load(binary)
+    unpacked = unpack(filecontent)
+    c.RAM.load(unpacked)
     # Main CPU loop
-    while c.running:
-        c.step()
-        logging.debug(c.registers)
+    cpu_loop(c)
+
 if __name__ == '__main__':
     main()

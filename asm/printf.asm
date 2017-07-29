@@ -13,5 +13,5 @@ main:
   PSH A
   LDV A, .printf
   PSH A
-  sys
-  hlt
+  SYS
+  HLT
