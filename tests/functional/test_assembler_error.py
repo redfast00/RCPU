@@ -16,6 +16,38 @@ def test_unknown_reg():
         c = execute_code(program)
     assert "Unknown register" in str(excinfo.value)
 
+def test_ATH_arguments():
+    program = '''
+        .text
+        .global main:
+        main:
+        ATH A, B, 18, 0, 0
+        HLT
+    '''
+    with pytest.raises(AssemblerException) as excinfo:
+        c = execute_code(program)
+    assert "ATH: OP" in str(excinfo.value)
+    program = '''
+        .text
+        .global main:
+        main:
+        ATH A, B, 0, 2, 0
+        HLT
+    '''
+    with pytest.raises(AssemblerException) as excinfo:
+        c = execute_code(program)
+    assert "ATH: M" in str(excinfo.value)
+    program = '''
+        .text
+        .global main:
+        main:
+        ATH A, B, 0, 0, 8
+        HLT
+    '''
+    with pytest.raises(AssemblerException) as excinfo:
+        c = execute_code(program)
+    assert "ATH: B" in str(excinfo.value)
+
 def test_too_big_LDV():
     program = '''
         .text
