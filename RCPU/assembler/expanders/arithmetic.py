@@ -6,10 +6,6 @@ class ArithmeticExpander(BaseExpander):
         return ['ATH {d},{s},0,0,0'.format(d=arg[0], s=arg[1])]
 
     @BaseExpander.instruction
-    def ADDS(arg):
-        return ['ATH {d},{s},0,1,0'.format(d=arg[0], s=arg[1])]
-
-    @BaseExpander.instruction
     def SUB(arg):
         return ['ATH {d},{s},1,0,0'.format(d=arg[0], s=arg[1])]
 
@@ -20,10 +16,6 @@ class ArithmeticExpander(BaseExpander):
     @BaseExpander.instruction
     def MUL(arg):
         return ['ATH {d},{s},2,0,0'.format(d=arg[0], s=arg[1])]
-
-    @BaseExpander.instruction
-    def MULS(arg):
-        return ['ATH {d},{s},2,1,0'.format(d=arg[0], s=arg[1])]
 
     @BaseExpander.instruction
     def DIV(arg):
@@ -46,24 +38,12 @@ class ArithmeticExpander(BaseExpander):
         return ['ATH {d},{s},6,0,0'.format(d=arg[0], s=arg[1])]
 
     @BaseExpander.instruction
-    def ANDS(arg):
-        return ['ATH {d},{s},6,1,0'.format(d=arg[0], s=arg[1])]
-
-    @BaseExpander.instruction
     def OR(arg):
         return ['ATH {d},{s},7,0,0'.format(d=arg[0], s=arg[1])]
 
     @BaseExpander.instruction
-    def ORS(arg):
-        return ['ATH {d},{s},7,1,0'.format(d=arg[0], s=arg[1])]
-
-    @BaseExpander.instruction
     def XOR(arg):
         return ['ATH {d},{s},8,0,0'.format(d=arg[0], s=arg[1])]
-
-    @BaseExpander.instruction
-    def XORS(arg):
-        return ['ATH {d},{s},8,1,0'.format(d=arg[0], s=arg[1])]
 
     @BaseExpander.instruction
     def NOT(arg):
