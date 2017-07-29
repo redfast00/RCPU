@@ -36,7 +36,7 @@ def assemble(lines):
 def pack_binary(binary):
     return [struct.pack('H', instruction) for instruction in binary]
 
-def main():
+def main(): #pragma: no cover
     parser = argparse.ArgumentParser(description='Assemble some assembly code.')
 
     parser.add_argument('infile', type=argparse.FileType('r'))

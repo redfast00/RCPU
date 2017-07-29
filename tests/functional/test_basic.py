@@ -1,4 +1,6 @@
 from .utils import execute_code
+from RCPU.assemble import pack_binary
+from RCPU.emulate import unpack
 
 def test_basic():
     program = '''
@@ -27,3 +29,9 @@ def test_resources():
     c = execute_code(program)
     assert c.kernel.read_string(c.registers.get(0)) == "Hello"
     assert c.registers.get(1) == 20
+
+def test_pack_unpack():
+    instructions = tuple(range(20))
+    packed = b''.join(pack_binary(instructions))
+    print(len(packed))
+    assert instructions == unpack(packed)
