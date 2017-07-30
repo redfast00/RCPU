@@ -14,9 +14,16 @@ def test_parse_resource():
     assert (".test", 5) == p.parse_resource(".test 5")
     assert (".str", "test") == p.parse_resource(".str string 'test'")
     assert (".tst", " *1* ") == p.parse_resource(".tst string ' *1* '")
+    assert (".tst", "test\n") == p.parse_resource(".tst string 'test\\n'")
+    label, allocated = p.parse_resource(".alloc allocate 20")
+    assert label == '.alloc'
+    assert len(allocated) == 19
     with pytest.raises(Exception) as excinfo:
         p.parse_resource(".test list [1,2]")
         assert "Unknown resource type" in str(excinfo.value)
+    with pytest.raises(Exception) as excinfo:
+        p.parse_resource(".alloc allocate 0")
+        assert "Size of allocated memory" in str(excinfo.value)
 
 def test_parse_instruction():
     assert ("MOV", ["B", "A"]) == p.parse_instruction("MOV B,A")

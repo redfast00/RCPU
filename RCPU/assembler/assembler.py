@@ -54,11 +54,10 @@ def replace_labels(text):
         second_pass.append(translated)
     return second_pass
 
-def generate_datasection(text, resourcetable, base_address=None):
+def generate_datasection(text, resourcetable):
     '''Creates the binary datasection at the end of a binary and
         converts symbolic values in text to values referring to memory'''
-    if base_address is None:
-        base_address = len(text)
+    base_address = len(text)
     newtext = []
     datasection = []
     used_resourcetable = {}

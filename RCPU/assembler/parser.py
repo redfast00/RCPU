@@ -1,4 +1,5 @@
 from . import utils
+from ast import literal_eval
 
 LABEL_CHAR = ':'
 
@@ -7,7 +8,14 @@ def parse_resource(line):
     if len(parts) == 2:
         return parts[0], int(parts[1])
     elif len(parts) == 3 and parts[1] == 'string':
-        return parts[0], parts[2][1:-1]
+        return parts[0], literal_eval(parts[2])
+    elif len(parts) == 3 and parts[1] == 'allocate':
+        # Allocate some memory for later use
+        # String length is one less than allocated memory because of NUL terminator
+        size = int(parts[2])
+        if size < 1:
+            raise utils.AssemblerError("Size of allocated memory too small")
+        return parts[0], '_' * (size - 1)
     else:
         raise utils.AssemblerError("Unknown resource type in .data")
 
