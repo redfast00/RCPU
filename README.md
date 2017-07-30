@@ -51,9 +51,9 @@ emulate printf.out
 |Instruction|Arguments|16 bit representation |Description|
 |-----------|---------|-------------------------|-------------|
 |`MOV`| `D, S`          | `XXXXXXXXSSDD0000` | Move value at source register to destination register|
-|`LDV`| `D, V`          | `VVVVVVVVVVDD0001` | Load a value into destination register. Max value is 0x3FF (1023) |
-|`LDA`| `D, M`          | `MMMMMMMMMMDD0010` | Load a value from memory into destination register|
-|`LDM`| `D, M`          | `MMMMMMMMMMDD0011` | Load the value in destination register into memory|
+|`LDV`| `D, V`          | `VVVVVVVVVVDD0001` | Load a value into destination register. The maximum value that can be loaded is 0x3FF (1023). |
+|`LDA`| `D, M`          | `MMMMMMMMMMDD0010` | Load a value from memory into destination register. The maximum memory address that can be loaded from is 0x3FF.|
+|`LDM`| `D, M`          | `MMMMMMMMMMDD0011` | Load the value in destination register into memory. The maximum memory address that can be loaded to is 0x3FF.|
 |`LDR`| `D, S`          | `XXXXXXXXSSDD0100` | Load the value from memory pointed at by the source register into the destination register|
 |`LDP`| `D, S`          | `XXXXXXXXSSDD0101` | Load the value in source register into the memory address pointed to by destination register|
 |`ATH`| `D, S, O, M, B` | `BBBMOOOOSSDD0110` | Perform an arithmetic operation on the source and destination registers. O specifies the operation (listed below) and M is the mode, where 0 = place result in destination register and 1 = place result in source register. If the instruction is right or left shift then B specifies the shifting value|
@@ -64,8 +64,19 @@ emulate printf.out
 |`POP`| `D`             | `XXXXXXXXXXDD1011` | Pop the stack into the destination register|
 |`SYS`|                 | `XXXXXXXXXXXX1100` | Perform a system call. This is described below in more detail.|
 |`HLT`|                 | `XXXXXXXXXXXX1101` | Program halt|
-|`JMP`| `M`             | `MMMMMMMMMMXX1110` | Jump to address in memory. Can only reference memory up to 0x3FF.|
+|`JMP`| `M`             | `MMMMMMMMMMXX1110` | Jump to address in memory. Can only jump to memory up to 0x3FF.|
 |`JMR`| `S`             | `XXXXXXXXSSXX1111` | Jump to the address pointed at by the source register|
+
+## Pseudo-instructions
+
+| Instruction                    | Description                                                                                                                                                                                                                                                                      |
+|--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `SWP D, S`                     | Swaps the values in the source and destination registers.                                                                                                                                                                                                                        |
+| `LDV16 D, V`                   | Loads a 16-bits value into the destination register.                                                                                                                                                                                                                             |
+| The aliased `ATH` instructions | `ADD`, `SUB`, `SUBS`, `MUL`, `DIV`, `DIVS`, `AND`, `OR`, `XOR` These instructions are aliases for the `ATH` instruction. The instructions ending in `S` load the result into the source register instead of into the destination register. Syntax for `D = D - S` is `SUB D, S`. |
+| `LSH D, V`, `RSH D, V`         | Shifts the value in the destination address by the value and stores it back in the destination address.                                                                                                                                                                          |
+| `INC D`, `DEC D`               | Increments or decrements the value in the destination register.                                                                                                                                                                                                                  |
+| `NOT D`                        | Flips every bit of the destination register.                                                                                                                                                                                                                                     |
 
 ## Arithmetic Operation table
 
@@ -122,12 +133,12 @@ main:
     - [ ] add support for macro's
     - [ ] add more expanders
         - [ ] conditional branching (NEQ, ...)
-    - [ ] add a way to reserve memory for strings
-    - [ ] add support for escaped characters in string
+    - [x] add a way to reserve memory for strings
+    - [x] add support for escaped characters in string
 - [ ] CPU: add more syscalls
     - [x] reading stdin
     - [ ] parsing input from stdin
     - [ ] reading/writing to files
 - [ ] Make a compiler for a certain language (maybe a language like Forth?)
-- [ ] Write more tests, get coverage to 100%
-    - [ ] Assembler and emulator scripts
+- [x] Write more tests, get coverage to 100%
+    - [x] Assembler and emulator scripts
