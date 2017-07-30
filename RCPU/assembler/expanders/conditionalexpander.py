@@ -14,18 +14,15 @@ class ConditionalExpander(BaseExpander):
         free_register = get_free_register([destination, source, "A"])
         failure = generate_label()
         instructions = [
-            "SWP A, {destination}",
             "PSH {free_register}",
             "LDV16 {free_register}, {failure}",
             "JLT {destination}, {free_register}",
             # Success, reset everything to how it was and make the jump
             "POP {free_register}",
-            "SWP A, {destination}",
             "JMR {source}",
             # Failure, reset everything to how it was
             "{failure}",
             "POP {free_register}",
-            "SWP A, {destination}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
             free_register=free_register,failure=failure)

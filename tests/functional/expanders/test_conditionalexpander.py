@@ -5,15 +5,15 @@ def test_JGE():
         .text
         .global main:
             main:
-                LDV A, 25
-                LDV B, 10
+                LDV A, 456
+                LDV B, 123
                 LDV C, positive:
                 JGE B, C
                 HLT
             positive:
-                LDV C, 16
+                LDV C, 789
                 HLT
     '''
     c = execute_code(program)
-    for reg, val in enumerate([25, 10, 16, 0]):
+    for reg, val in enumerate([456, 123, 789, 0]):
         assert c.registers.get(reg) == val
