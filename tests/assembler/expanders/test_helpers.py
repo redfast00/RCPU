@@ -1,4 +1,5 @@
-from RCPU.assembler.expanders.helpers import get_free_register, fill_instructions
+from RCPU.assembler.expanders.helpers import get_free_register, fill_instructions, generate_label
+from RCPU.assembler.parser import is_label
 
 def test_get_free_register():
     assert get_free_register(["A", "B", "C"]) == "D"
@@ -19,3 +20,7 @@ def test_fill_instructions():
     "PSH A"
     ]
     assert fill_instructions(original, P='A', Q='B', R='C') == filled
+
+def test_generate_label():
+    assert is_label(generate_label())
+    assert generate_label() != generate_label()

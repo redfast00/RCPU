@@ -1,4 +1,4 @@
-from .utils import execute_code
+from tests.functional.utils import execute_code
 
 def test_LDV16():
     program = '''

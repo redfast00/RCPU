@@ -28,6 +28,8 @@ def assemble(lines):
     })
     # Insert references to resourcetable
     text, datasection = assembler.generate_datasection(text, resourcetable)
+    # Replace symbolic arguments
+    text = assembler.eval_expressions(text)
     # Translate instructions into machine code
     binary = assembler.translate_all(text)
     binary += datasection

@@ -1,9 +1,11 @@
 from RCPU.architecture import instruction_mapping
 import RCPU.assembler.parser as parser
-from . import arithmetic
-from . import utilexpander
 
-_all_classes = [arithmetic.ArithmeticExpander, utilexpander.UtilExpander]
+from .arithmetic import ArithmeticExpander
+from .utilexpander import UtilExpander
+from .conditionalexpander import ConditionalExpander
+
+_all_classes = [ArithmeticExpander, UtilExpander, ConditionalExpander]
 mapping = {}
 for c in _all_classes:
     mapping.update(c.get_instructions())
