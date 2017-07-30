@@ -1,6 +1,8 @@
 from . import parser
 from . import translator
 from . import utils
+import string
+from RCPU.safe_eval import safe_eval
 from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
@@ -32,6 +34,7 @@ def expand_all(text):
 
 def replace_labels(text):
     '''Replaces labels in text with their locations in text'''
+    # TODO refractor this
     labels = {}
     first_pass = []
     second_pass = []
@@ -47,10 +50,25 @@ def replace_labels(text):
     # Translate all labels
     for line in first_pass:
         assert parser.is_instruction(line)
-        instruction, arguments = parser.parse_instruction(line)
-        # Replace labels with their location in memory
-        arguments = [str(labels[arg]) if parser.is_label(arg) else arg for arg in arguments]
-        translated = parser.unparse_instruction(instruction, arguments)
+        iterator = iter(line)
+        translated = ''
+        for char in iterator:
+            current = ''
+            try:
+                while char in parser.ALLOWED_LABEL_NAME_CHARS:
+                    current += char
+                    char = next(iterator)
+                current += char
+            except StopIteration:
+                pass
+            if char == parser.LABEL_CHAR:
+                translated += str(labels[current])
+            else:
+                translated += current
+        # instruction, arguments = parser.parse_instruction(line)
+        # # Replace labels with their location in memory
+        # arguments = [str(labels[arg]) if parser.is_label(arg) else arg for arg in arguments]
+        # translated = parser.unparse_instruction(instruction, arguments)
         second_pass.append(translated)
     return second_pass
 
@@ -100,3 +118,16 @@ def replace_entrypoint(text):
     entrypoint = parser.parse_global(text[0])
     text[0] = parser.unparse_instruction("JMP", [entrypoint])
     return text
+
+def replace_symbolic(line):
+    instruction, arguments = parser.parse_instruction(line)
+    arguments = [
+        str(safe_eval(argument))
+        if (argument.startswith('(') and argument.endswith(')'))
+        else argument
+        for argument in arguments
+    ]
+    return parser.unparse_instruction(instruction, arguments)
+
+def eval_expressions(lines):
+    return [replace_symbolic(line) for line in lines]

@@ -6,22 +6,25 @@ class UtilExpander(BaseExpander):
     @BaseExpander.instruction
     def LDV16(arg):
         destination = arg[0]
-        value = int(arg[1])
-        if value <= MAX_VALUE_LDV:
+        try:
+            value = int(arg[1])
+            symbolic = False
+        except ValueError:
+            value = arg[1]
+            symbolic = True
+        if not symbolic and value <= MAX_VALUE_LDV:
             return ["LDV {D},{V}".format(D=destination, V=value)]
         else:
-            first_part = value >> 6
-            second_part = value & 0b111111
             tmp_reg = get_free_register([destination])
             instructions =  [
                 "PSH {T}",
-                "LDV {D},{F}",
+                "LDV {D},({V} >> 6)",
                 "LSH {D},6",
-                "LDV {T},{S}",
+                "LDV {T},({V} & 0b111111)",
                 "OR {D},{T}",
                 "POP {T}"
             ]
-            return fill_instructions(instructions, T=tmp_reg, D=destination, F=first_part, S=second_part)
+            return fill_instructions(instructions, T=tmp_reg, D=destination, V=value)
 
     @BaseExpander.instruction
     def SWP(arg):

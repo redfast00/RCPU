@@ -1,7 +1,9 @@
 from . import utils
 from ast import literal_eval
+import string
 
 LABEL_CHAR = ':'
+ALLOWED_LABEL_NAME_CHARS = string.ascii_letters + string.digits + '_-'
 
 def parse_resource(line):
     parts = line.split(' ', 2)
@@ -26,6 +28,7 @@ def parse_global(line):
     return parts[1]
 
 def is_label(line):
+    # TODO check valid label chars
     return line.endswith(LABEL_CHAR) and ' ' not in line
 
 def is_instruction(line):
