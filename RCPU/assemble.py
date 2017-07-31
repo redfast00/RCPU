@@ -23,13 +23,14 @@ def assemble(lines):
     text = assembler.expand_all(text)
     # Replace labels with their locations in the binary
     text = assembler.replace_labels(text)
-    pretty_log_debug('expanded',{
-        'text':text,
-    })
     # Insert references to resourcetable
     text, datasection = assembler.generate_datasection(text, resourcetable)
     # Replace symbolic arguments
     text = assembler.eval_expressions(text)
+    logging.info("Expanded size: {}".format(len(text)))
+    pretty_log_debug('expanded',{
+        'text':text,
+    })
     # Translate instructions into machine code
     binary = assembler.translate_all(text)
     binary += datasection
@@ -43,7 +44,7 @@ def main(): #pragma: no cover
 
     parser.add_argument('infile', type=argparse.FileType('r'))
     parser.add_argument('outfile', type=argparse.FileType('wb'))
-    parser.add_argument('--debug', action='store_const', const=logging.DEBUG, default=logging.WARNING, dest='loglevel')
+    parser.add_argument('--debug', action='store_const', const=logging.DEBUG, default=logging.INFO, dest='loglevel')
     args = parser.parse_args()
 
     logging.basicConfig(level=args.loglevel, format='%(levelname)s: %(message)s')
