@@ -8,7 +8,7 @@ class Visitor(ast.NodeVisitor):
     def visit(self, node):
        if not isinstance(node, self.whitelist):
            raise ValueError(node)
-       return super().visit(node)
+       return super(Visitor, self).visit(node)
 
     whitelist = (ast.Module, ast.Expr, ast.Load, ast.Expression, ast.Add, ast.Sub, ast.UnaryOp, ast.Num, ast.BinOp,
             ast.Mult, ast.Div, ast.Pow, ast.BitOr, ast.BitAnd, ast.BitXor, ast.USub, ast.UAdd, ast.FloorDiv, ast.Mod,
@@ -20,4 +20,4 @@ def safe_eval(expr, locals = {}):
         node = ast.parse(expr.strip(), mode='eval')
         Visitor().visit(node)
         return eval(compile(node, "<string>", "eval"), {'__builtins__': None}, locals)
-    except Exception: raise ValueError(expr)
+    except ValueError: raise ValueError(expr)
