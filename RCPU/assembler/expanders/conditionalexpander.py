@@ -30,7 +30,7 @@ class ConditionalExpander(BaseExpander):
     @BaseExpander.instruction
     def JEQ(arg):
         '''Jump to memory address pointed at by the source register,
-           if value in the A register is  equal to the value in the
+           if value in the A register is equal to the value in the
            destination register
         '''
         destination = arg[0]
@@ -45,7 +45,7 @@ class ConditionalExpander(BaseExpander):
             "SWP A, {destination}",
             "LDV16 {free_register}, {failure_two}",
             "JLT {destination}, {free_register}",
-            "POP {free_register}",
+            "POP {free_register}", # TODO optimise this to use the same register
             "JMR {source}",
             "{failure_two}",
             "SWP A, {destination}",
@@ -54,3 +54,33 @@ class ConditionalExpander(BaseExpander):
         ]
         return fill_instructions(instructions, destination=destination, source=source,
             free_register=free_register,failure_one=failure_one, failure_two=failure_two)
+
+    @BaseExpander.instruction
+    def JNE(arg):
+        '''Jump to memory address pointed at by the source register,
+           if value in the A register is not equal to the value in the
+           destination register
+        '''
+        destination = arg[0]
+        source = arg[1]
+        free_register = get_free_register([destination, source, 'A'])
+        success = generate_label()
+        failure = generate_label()
+        instructions = [
+            "JLT {destination}, {source}",
+            "PSH {free_register}",
+            "SWP A, {destination}",
+            "LDV16 {free_register}, {success}",
+            "JLT {destination}, {free_register}",
+            # Registers are equal, JMP to the end of pseudo-instruction
+            "LDV16 {free_register}, {failure}",
+            "JMR {free_register}",
+            "{success}",
+            "SWP A, {destination}",
+            "POP {free_register}",
+            "JMR {source}",
+            "{failure}",
+            "POP {free_register}"
+        ]
+        return fill_instructions(instructions, destination=destination, source=source,
+            free_register=free_register, success=success, failure=failure)
