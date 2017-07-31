@@ -1,4 +1,5 @@
 import sys
+from RCPU.utils import get_character
 
 class KernelException(Exception):
     pass
@@ -95,4 +96,16 @@ class Kernel:
         self.write_string(memory_addr, result)
         # Return number of characters read
         self.stack.push(read)
+
+    def syscall_2(self):
+        '''getc: stream_num
+        Gets a single character from the stream specified by stream_num. Blocks
+         until a character is read.
+        Returns the ascii code of the character read.
+        '''
+        stream_num = self.stack.pop()
+        infile = self.get_file(stream_num)
+        char = get_character(file=infile)
+        self.stack.push(ord(char))
+
 

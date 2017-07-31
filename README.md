@@ -121,10 +121,11 @@ main:
 
 ### Syscall table
 
-| Number | Function | Arguments                | Notes                                                                              |
-|--------|----------|--------------------------|------------------------------------------------------------------------------------|
-| `0`    | `printf` | `fmt, ...`               | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers.  |
-| `1`    | `fgets`  | `*str, size, stream_num` | Only supports stdin for now.                                                       |
+| Number | Function | Arguments                | Returns      | Notes                                                                             |
+|--------|----------|--------------------------|--------------|-----------------------------------------------------------------------------------|
+| `0`    | `printf` | `fmt, ...`               | `void`           | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers. |
+| `1`    | `fgets`  | `*str, size, stream_num` | `chars_read` | Only supports stdin for now. Returns the number of characters read.               |
+| `2`    | `getc`   | `stream_num`             | `char_read`  | Returns the ASCII code of the character that was read.                            |
 
 # Roadmap
 
@@ -140,6 +141,9 @@ main:
     - [x] reading stdin
     - [ ] parsing input from stdin
     - [ ] reading/writing to files
+- [ ] Docs
+    - Add branching pseudo-instructions + mention side effects (none :) )
+    - Split README into multiple files
 - [ ] Make a compiler for a certain language (maybe a language like Forth?)
 - [x] Write more tests, get coverage to 100%
     - [x] Assembler and emulator scripts
