@@ -84,3 +84,63 @@ class ConditionalExpander(BaseExpander):
         ]
         return fill_instructions(instructions, destination=destination, source=source,
             free_register=free_register, success=success, failure=failure)
+
+    @BaseExpander.instruction
+    def JGT(arg):
+        '''Jump to memory address pointed at by the source register,
+           if value in the A register is greater than
+           the value in the destination register
+        '''
+        destination = arg[0]
+        source = arg[1]
+        free_register = get_free_register([destination, source, 'A'])
+        failure = generate_label()
+        success = generate_label()
+        instructions = [
+            "PSH {free_register}",
+            "SWP A, {destination}",
+            "LDV16 {free_register}, {success}",
+            "JLT {destination}, {free_register}",
+            "LDV16 {free_register}, {failure}",
+            "JMR {free_register}",
+            "{success}",
+            "SWP A, {destination}",
+            "POP {free_register}",
+            "JMR {source}",
+            "{failure}",
+            "SWP A, {destination}",
+            "POP {free_register}"
+        ]
+        return fill_instructions(instructions, destination=destination, source=source,
+            free_register=free_register,failure=failure, success=success)
+
+    @BaseExpander.instruction
+    def JLE(arg):
+        '''Jump to memory address pointed at by the source register,
+           if value in the A register is less than or equal to
+           the value in the destination register
+        '''
+        destination = arg[0]
+        source = arg[1]
+        free_register = get_free_register([destination, source, 'A'])
+        failure = generate_label()
+        success = generate_label()
+        instructions = [
+            # Check less
+            "JLT {destination}, {source}",
+            # Was not less, check if equal
+            "PSH {free_register}",
+            "SWP A, {destination}",
+            "LDV16 {free_register}, {failure}",
+            "JLT {destination}, {free_register}",
+            # Success
+            "SWP A, {destination}",
+            "POP {free_register}",
+            "JMR {source}",
+            # Failure
+            "{failure}",
+            "SWP A, {destination}",
+            "POP {free_register}"
+        ]
+        return fill_instructions(instructions, destination=destination, source=source,
+            free_register=free_register,failure=failure, success=success)

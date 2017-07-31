@@ -63,3 +63,49 @@ def test_JNE():
     assert c.registers._gp == [123,456,789,80]
     c = execute_code(program.format(value=12))
     assert c.registers._gp == [123,12,789,80]
+
+def test_JGT():
+    program = '''
+        .text
+        .global main:
+            main:
+                LDV A, 123
+                LDV B, {value}
+                LDV C, positive:
+                LDV D, 80
+                JGT B, C
+                LDV C, 321
+                HLT
+            positive:
+                LDV C, 789
+                HLT
+    '''
+    c = execute_code(program.format(value=123))
+    assert c.registers._gp == [123,123,321,80]
+    c = execute_code(program.format(value=456))
+    assert c.registers._gp == [123,456,321,80]
+    c = execute_code(program.format(value=12))
+    assert c.registers._gp == [123,12,789,80]
+
+def test_JLE():
+    program = '''
+        .text
+        .global main:
+            main:
+                LDV A, 123
+                LDV B, {value}
+                LDV C, positive:
+                LDV D, 80
+                JLE B, C
+                LDV C, 321
+                HLT
+            positive:
+                LDV C, 789
+                HLT
+    '''
+    c = execute_code(program.format(value=123))
+    assert c.registers._gp == [123,123,789,80]
+    c = execute_code(program.format(value=456))
+    assert c.registers._gp == [123,456,789,80]
+    c = execute_code(program.format(value=12))
+    assert c.registers._gp == [123,12,321,80]

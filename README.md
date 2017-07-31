@@ -132,9 +132,10 @@ main:
     - [ ] add support for including files (\*.inc), write .inc file for all syscalls
     - [ ] add support for macro's
     - [ ] add more expanders
-        - [ ] conditional branching (NEQ, ...)
+        - [x] conditional branching (JNE, JGE, JEQ, JGT, JLE)
     - [x] add a way to reserve memory for strings
     - [x] add support for escaped characters in string
+    - [ ] add optimizing step (for example, remove POP A, PSH A sequences)
 - [ ] CPU: add more syscalls
     - [x] reading stdin
     - [ ] parsing input from stdin
