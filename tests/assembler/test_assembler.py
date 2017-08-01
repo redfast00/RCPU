@@ -36,14 +36,14 @@ def test_generate_datasection():
     ]
     # Check that string is only included once
     t, d = a.generate_datasection(text, resourcetable)
-    assert t == ["MOV A,2", "MOV B,2"]
+    assert t == ["MOV A, 2", "MOV B, 2"]
     assert d == [ ord(char) for char in "firstval" ] + [0]
     # Check that numbers are included
     text = [
     "MOV A, .number"
     ]
     t, d = a.generate_datasection(text, resourcetable)
-    assert t == ["MOV A,42"]
+    assert t == ["MOV A, 42"]
     assert d == []
     # Check that an unsupported type in the resourcetable raises an Exception
     resourcetable = {'.first': [1, 2, 3]}

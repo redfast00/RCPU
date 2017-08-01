@@ -16,10 +16,10 @@ def parse_resource(line):
         # String length is one less than allocated memory because of NUL terminator
         size = int(parts[2])
         if size < 1:
-            raise utils.AssemblerError("Size of allocated memory too small")
+            raise utils.AssemblerException("Size of allocated memory too small: {}".format(line))
         return parts[0], '_' * (size - 1)
     else:
-        raise utils.AssemblerError("Unknown resource type in .data")
+        raise utils.AssemblerException("Unknown resource type in .data: {}".format(line))
 
 def parse_global(line):
     assert line.startswith(".global")

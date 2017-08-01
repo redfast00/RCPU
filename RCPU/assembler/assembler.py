@@ -1,6 +1,7 @@
 from . import parser
 from . import translator
 from . import utils
+from . import resources
 import string
 from RCPU.safe_eval import safe_eval
 from RCPU.assembler.expanders.expander import expand_instruction
@@ -81,14 +82,14 @@ def generate_datasection(text, resourcetable):
     used_resourcetable = {}
     for line in text:
         # Should all be instructions by now
-        instruction, arguments = parser.parse_instruction(line)
-        newarguments = []
-        for argument in arguments:
-            if parser.is_reference(argument):
-                value = resourcetable[argument]
+        parts = resources.split_resource(line)
+        generated = ''
+        for part in parts:
+            if parser.is_reference(part):
+                value = resourcetable[part]
                 if type(value) == int:
                     assert 0 <= value and value <= MAX_VALUE
-                    argument = str(value)
+                    part = str(value)
                 elif type(value) == str:
                     if value not in used_resourcetable:
                         address = len(datasection) + base_address
@@ -96,11 +97,11 @@ def generate_datasection(text, resourcetable):
                             datasection.append(ord(char))
                         datasection.append(0)
                         used_resourcetable[value] = address
-                    argument = str(used_resourcetable[value])
+                    part = str(used_resourcetable[value])
                 else:
                     raise utils.AssemblerException('Unsupported resource type')
-            newarguments.append(argument)
-        newtext.append(parser.unparse_instruction(instruction, newarguments))
+            generated += part
+        newtext.append(generated)
     return newtext, datasection
 
 def translate_all(text):
