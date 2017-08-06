@@ -56,12 +56,10 @@ class CPU:
     def LDR(self, arguments):
         destination = arguments & 0b11
         source = (arguments >> 2) & 0b11
-        print("Setting register to data pointed by {}, is {}".format(self.registers.get(source), self.RAM.get(self.registers.get(source))))
         self.registers.set(destination, self.RAM.get(self.registers.get(source)))
     def LDP(self, arguments):
         destination = arguments & 0b11
         source = (arguments >> 2) & 0b11
-        print("Setting RAM{} to {}".format(self.registers.get(destination), self.registers.get(source)))
         self.RAM.set(self.registers.get(destination), self.registers.get(source))
     def ATH(self, arguments):
         destination = arguments & 0b11
