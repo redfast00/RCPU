@@ -58,7 +58,7 @@ def test_too_big_LDV():
     '''
     with pytest.raises(AssemblerException) as excinfo:
         c = execute_code(program)
-    assert "LDV: Memory address" in str(excinfo.value)
+    assert "LDV: Value" in str(excinfo.value)
 
 def test_too_big_LDA():
     program = '''

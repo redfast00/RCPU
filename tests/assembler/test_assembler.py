@@ -56,5 +56,3 @@ def test_replace_entrypoint():
     text = [".global main:", "main:", "INC A", "JMP main:"]
     expected = ["JMP main:", "main:", "INC A", "JMP main:"]
     assert a.replace_entrypoint(text) == expected
-
-#TODO test expand, expand_all and translate with execution
