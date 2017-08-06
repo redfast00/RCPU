@@ -91,13 +91,13 @@ def generate_datasection(text, resourcetable):
                     assert 0 <= value and value <= MAX_VALUE
                     part = str(value)
                 elif type(value) == str:
-                    if value not in used_resourcetable:
+                    if part not in used_resourcetable:
                         address = len(datasection) + base_address
                         for char in value:
                             datasection.append(ord(char))
                         datasection.append(0)
-                        used_resourcetable[value] = address
-                    part = str(used_resourcetable[value])
+                        used_resourcetable[part] = address
+                    part = str(used_resourcetable[part])
                 else:
                     raise utils.AssemblerException('Unsupported resource type')
             generated += part
