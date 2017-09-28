@@ -2,9 +2,15 @@
 [![codecov](https://codecov.io/gh/redfast00/RCPU/branch/master/graph/badge.svg)](https://codecov.io/gh/redfast00/RCPU)
 # Documentation for RCPU
 
-This is a VM CPU emulator written in Python.
+This is a VM CPU emulator written in Python, without dependencies. This project
+is compatible with both Python 2.7 and 3.x.
 The size of instructions and memory cells are 16 bits.
 The specs for this project (CPU instructions and architecture) are heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
+This project consists of:
+- An emulator written in Python.
+- An assembler written in Python.
+- Tests, you'll never guess it, also written in Python.
+- A Brainfuck interpreter written in assembly that can be assembled with the included assembler.
 
 ## Installation and usage
 
@@ -19,6 +25,11 @@ python -m RCPU.assemble asm/printf.asm printf.out
 and then execute it with:
 ```
 python -m RCPU.emulate printf.out
+```
+To use the Brainfuck interpreter, just do:
+```
+python -m RCPU.assemble asm/brainfuck.asm brainfuck.out
+python -m RCPU.emulate brainfuck.out
 ```
 If you want easier aliases, you can install the project with:
 ```
