@@ -4,7 +4,7 @@ import argparse
 import struct
 import logging
 
-from pprint import pprint, pformat
+from pprint import pformat
 
 
 def pretty_log_debug(stage, msg, *args, **kwargs):

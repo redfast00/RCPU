@@ -54,7 +54,8 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-                                 free_register=free_register, failure_one=failure_one, failure_two=failure_two)
+                                 free_register=free_register, failure_one=failure_one,
+                                 failure_two=failure_two)
 
     @BaseExpander.instruction
     def JNE(arg):

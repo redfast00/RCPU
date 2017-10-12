@@ -2,14 +2,14 @@ from . import parser
 from . import translator
 from . import utils
 from . import resources
-import string
 from RCPU.safe_eval import safe_eval
 from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
 
 def create_resourcetable(data):
-    '''Creates a resourcetable from the datasection that maps a name (like .value) to a value (like 5).'''
+    '''Creates a resourcetable from the datasection that maps a name
+     (like .value) to a value (like 5).'''
     resourcetable = {}
     for line in data:
         name, value = parser.parse_resource(line)
@@ -31,7 +31,8 @@ def expand(text):
 
 
 def expand_all(text):
-    '''Expands pseudo-instructions until all pseudo-instructions are converted to real instructions'''
+    '''Expands pseudo-instructions until all pseudo-instructions are converted
+     to real instructions'''
     while text != expand(text):
         text = expand(text)
     return text
