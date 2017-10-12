@@ -1,5 +1,6 @@
 from .utils import execute_code
 
+
 def test_CAL_RET():
     program = '''
         .data

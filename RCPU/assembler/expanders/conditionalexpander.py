@@ -1,6 +1,7 @@
 from RCPU.assembler.expanders.baseexpander import BaseExpander
 from .helpers import get_free_register, generate_label, fill_instructions
 
+
 class ConditionalExpander(BaseExpander):
 
     @BaseExpander.instruction
@@ -25,7 +26,7 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}",
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-            free_register=free_register,failure=failure)
+                                 free_register=free_register, failure=failure)
 
     @BaseExpander.instruction
     def JEQ(arg):
@@ -45,7 +46,7 @@ class ConditionalExpander(BaseExpander):
             "SWP A, {destination}",
             "LDV16 {free_register}, {failure_two}",
             "JLT {destination}, {free_register}",
-            "POP {free_register}", # TODO optimise this to use the same register
+            "POP {free_register}",  # TODO optimise this to use the same register
             "JMR {source}",
             "{failure_two}",
             "SWP A, {destination}",
@@ -53,7 +54,7 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-            free_register=free_register,failure_one=failure_one, failure_two=failure_two)
+                                 free_register=free_register, failure_one=failure_one, failure_two=failure_two)
 
     @BaseExpander.instruction
     def JNE(arg):
@@ -83,7 +84,7 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-            free_register=free_register, success=success, failure=failure)
+                                 free_register=free_register, success=success, failure=failure)
 
     @BaseExpander.instruction
     def JGT(arg):
@@ -112,7 +113,7 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-            free_register=free_register,failure=failure, success=success)
+                                 free_register=free_register, failure=failure, success=success)
 
     @BaseExpander.instruction
     def JLE(arg):
@@ -143,4 +144,4 @@ class ConditionalExpander(BaseExpander):
             "POP {free_register}"
         ]
         return fill_instructions(instructions, destination=destination, source=source,
-            free_register=free_register,failure=failure, success=success)
+                                 free_register=free_register, failure=failure, success=success)

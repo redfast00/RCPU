@@ -5,6 +5,7 @@ import RCPU.emulator.registers as registers
 
 import io
 
+
 def init_kernel(stdin=None):
     r = ram.RAM(256)
     # Fill up RAM with 1's to be certain that 0 termination works

@@ -1,5 +1,6 @@
 import RCPU.emulator.cpu as cpu
 
+
 def test_decode():
     c = cpu.CPU()
     instruction = 0b0000000000000000
@@ -9,6 +10,7 @@ def test_decode():
     instruction = 0b1000000000001110
     assert c.decode(instruction) == ("JMP", 0b100000000000)
 
+
 def test_fetch():
     c = cpu.CPU()
     a = 0b1000000000001110
@@ -17,6 +19,7 @@ def test_fetch():
     assert c.fetch() == a
     c.registers.ip += 1
     assert c.fetch() == b
+
 
 def test_step():
     c = cpu.CPU()

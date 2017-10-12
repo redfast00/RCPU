@@ -2,6 +2,7 @@ from .utils import execute_code
 from RCPU.assembler.utils import AssemblerException
 import pytest
 
+
 def test_unknown_reg():
     program = '''
         .data
@@ -15,6 +16,7 @@ def test_unknown_reg():
     with pytest.raises(AssemblerException) as excinfo:
         c = execute_code(program)
     assert "Unknown register" in str(excinfo.value)
+
 
 def test_ATH_arguments():
     program = '''
@@ -48,6 +50,7 @@ def test_ATH_arguments():
         c = execute_code(program)
     assert "ATH: B" in str(excinfo.value)
 
+
 def test_too_big_LDV():
     program = '''
         .text
@@ -59,6 +62,7 @@ def test_too_big_LDV():
     with pytest.raises(AssemblerException) as excinfo:
         c = execute_code(program)
     assert "LDV: Value" in str(excinfo.value)
+
 
 def test_too_big_LDA():
     program = '''
@@ -72,6 +76,7 @@ def test_too_big_LDA():
         c = execute_code(program)
     assert "LDA: Memory address" in str(excinfo.value)
 
+
 def test_too_big_LDM():
     program = '''
         .text
@@ -83,6 +88,7 @@ def test_too_big_LDM():
     with pytest.raises(AssemblerException) as excinfo:
         c = execute_code(program)
     assert "LDM: Memory address" in str(excinfo.value)
+
 
 def test_too_big_JMP():
     program = '''

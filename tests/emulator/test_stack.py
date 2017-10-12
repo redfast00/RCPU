@@ -1,11 +1,13 @@
 import RCPU.emulator.stack as stack
 import RCPU.emulator.registers as registers
 
+
 def test_push_pop():
     r = registers.Registers()
     s = stack.Stack(r)
     s.push(12)
     assert s.pop() == 12
+
 
 def test_order():
     r = registers.Registers()
@@ -16,6 +18,7 @@ def test_order():
     assert s.pop() == 3
     assert s.pop() == 2
     assert s.pop() == 1
+
 
 def test_changing_sp():
     r = registers.Registers()

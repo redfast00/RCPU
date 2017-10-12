@@ -1,5 +1,6 @@
 from tests.functional.utils import execute_code
 
+
 def test_ADD():
     program = '''
         .text
@@ -14,6 +15,7 @@ def test_ADD():
     assert c.registers.get(0) == 40
     assert c.registers.get(1) == 10
 
+
 def test_LSH():
     program = '''
         .text
@@ -26,6 +28,7 @@ def test_LSH():
     c = execute_code(program)
     assert c.registers.get(0) == 30 << 3
 
+
 def test_RSH():
     program = '''
         .text
@@ -37,6 +40,7 @@ def test_RSH():
     '''
     c = execute_code(program)
     assert c.registers.get(0) == 30 >> 3
+
 
 def test_SUB():
     program = '''
@@ -52,6 +56,7 @@ def test_SUB():
     assert c.registers.get(0) == 20
     assert c.registers.get(1) == 10
 
+
 def test_SUBS():
     program = '''
         .text
@@ -66,6 +71,7 @@ def test_SUBS():
     assert c.registers.get(0) == 30
     assert c.registers.get(1) == 20
 
+
 def test_MUL():
     program = '''
         .text
@@ -79,6 +85,7 @@ def test_MUL():
     c = execute_code(program)
     assert c.registers.get(0) == 300
     assert c.registers.get(1) == 10
+
 
 def test_DIV():
     program = '''
@@ -107,6 +114,7 @@ def test_DIV():
     assert c.registers.get(0) == 3
     assert c.registers.get(1) == 10
 
+
 def test_DIVS():
     program = '''
         .text
@@ -120,6 +128,7 @@ def test_DIVS():
     c = execute_code(program)
     assert c.registers.get(0) == 30
     assert c.registers.get(1) == 3
+
 
 def test_AND():
     program = '''
@@ -135,6 +144,7 @@ def test_AND():
     assert c.registers.get(0) == 30 & 10
     assert c.registers.get(1) == 10
 
+
 def test_OR():
     program = '''
         .text
@@ -148,6 +158,7 @@ def test_OR():
     c = execute_code(program)
     assert c.registers.get(0) == 30 | 10
     assert c.registers.get(1) == 10
+
 
 def test_XOR():
     program = '''
@@ -163,6 +174,7 @@ def test_XOR():
     assert c.registers.get(0) == 30 ^ 10
     assert c.registers.get(1) == 10
 
+
 def test_NOT():
     program = '''
         .text
@@ -174,6 +186,7 @@ def test_NOT():
     '''
     c = execute_code(program)
     assert c.registers.get(0) == 0xFFFF - 30
+
 
 def test_INC():
     program = '''
@@ -189,6 +202,7 @@ def test_INC():
     c = execute_code(program)
     assert c.registers.get(0) == 32
     assert c.registers.get(1) == 1
+
 
 def test_DEC():
     program = '''

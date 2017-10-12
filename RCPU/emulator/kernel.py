@@ -1,8 +1,10 @@
 import sys
 from RCPU.utils import get_character
 
+
 class KernelException(Exception):
     pass
+
 
 class Kernel:
     def __init__(self, ram, stack):
@@ -107,5 +109,3 @@ class Kernel:
         infile = self.get_file(stream_num)
         char = get_character(file=infile)
         self.stack.push(ord(char))
-
-

@@ -1,5 +1,6 @@
 import re
 
+
 def split_resource(line):
     '''
     Splits a line into references to resources and other text
