@@ -1,5 +1,6 @@
 from .utils import execute_code
 
+
 def test_allocate():
     program = '''
         .data

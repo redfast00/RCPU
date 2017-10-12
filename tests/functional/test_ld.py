@@ -1,5 +1,6 @@
 from .utils import execute_code
 
+
 def test_LDA_LDM():
     program = '''
         .data
@@ -18,6 +19,7 @@ def test_LDA_LDM():
     assert c.registers.get(1) == 20
     assert c.RAM.get(500) == 20
 
+
 def test_LDR():
     program = '''
         .data
@@ -32,6 +34,7 @@ def test_LDR():
     c = execute_code(program)
     assert c.registers.get(1) == ord('A')
     assert c.RAM.get(c.registers.get(0)) == ord('A')
+
 
 def test_LDP():
     program = '''

@@ -25,5 +25,6 @@ install:
   - pip install -r requirements.txt
 script:
     - py.test --cov=./
+    - flake8
 after_success:
     - codecov

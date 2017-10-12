@@ -10,7 +10,7 @@ _MAX_CHARACTER_BYTE_LENGTH = 4
 
 
 @contextlib.contextmanager
-def _tty_reset(file_descriptor): #pragma: no cover
+def _tty_reset(file_descriptor):  # pragma: no cover
     """
     A context manager that saves the tty flags of a file descriptor upon
     entering and restores them upon exiting.
@@ -26,7 +26,7 @@ def get_character(file=sys.stdin):
     """
     Read a single character from the given input stream (defaults to sys.stdin).
     """
-    try: #pragma: no cover
+    try:  # pragma: no cover
         file_descriptor = file.fileno()
         with _tty_reset(file_descriptor):
             tty.setcbreak(file_descriptor)

@@ -1,4 +1,6 @@
 from RCPU.assembler.expanders.baseexpander import BaseExpander
+
+
 class ArithmeticExpander(BaseExpander):
 
     @BaseExpander.instruction

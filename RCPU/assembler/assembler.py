@@ -2,18 +2,20 @@ from . import parser
 from . import translator
 from . import utils
 from . import resources
-import string
 from RCPU.safe_eval import safe_eval
 from RCPU.assembler.expanders.expander import expand_instruction
 from RCPU.architecture import MAX_VALUE
 
+
 def create_resourcetable(data):
-    '''Creates a resourcetable from the datasection that maps a name (like .value) to a value (like 5).'''
+    '''Creates a resourcetable from the datasection that maps a name
+     (like .value) to a value (like 5).'''
     resourcetable = {}
     for line in data:
         name, value = parser.parse_resource(line)
         resourcetable[name] = value
     return resourcetable
+
 
 def expand(text):
     '''Expands pseudo-instructions into real instructions, supports symbolic arguments'''
@@ -27,11 +29,14 @@ def expand(text):
             newtext.append(line)
     return newtext
 
+
 def expand_all(text):
-    '''Expands pseudo-instructions until all pseudo-instructions are converted to real instructions'''
+    '''Expands pseudo-instructions until all pseudo-instructions are converted
+     to real instructions'''
     while text != expand(text):
         text = expand(text)
     return text
+
 
 def replace_labels(text):
     '''Replaces labels in text with their locations in text'''
@@ -73,6 +78,7 @@ def replace_labels(text):
         second_pass.append(translated)
     return second_pass
 
+
 def generate_datasection(text, resourcetable):
     '''Creates the binary datasection at the end of a binary and
         converts symbolic values in text to values referring to memory'''
@@ -104,6 +110,7 @@ def generate_datasection(text, resourcetable):
         newtext.append(generated)
     return newtext, datasection
 
+
 def translate_all(text):
     '''Translates all textual instructions in the text section into binary instructions.'''
     binary = []
@@ -113,12 +120,14 @@ def translate_all(text):
         binary.append(t.translate(instruction, arguments))
     return binary
 
+
 def replace_entrypoint(text):
     '''Replaces the entrypoint (.global) with a JMP to the location of the entrypoint.'''
     # TODO: replace this with a long jump in case entrypoint is above 0x3FF
     entrypoint = parser.parse_global(text[0])
     text[0] = parser.unparse_instruction("JMP", [entrypoint])
     return text
+
 
 def replace_symbolic(line):
     instruction, arguments = parser.parse_instruction(line)
@@ -129,6 +138,7 @@ def replace_symbolic(line):
         for argument in arguments
     ]
     return parser.unparse_instruction(instruction, arguments)
+
 
 def eval_expressions(lines):
     return [replace_symbolic(line) for line in lines]

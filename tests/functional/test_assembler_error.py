@@ -2,6 +2,7 @@ from .utils import execute_code
 from RCPU.assembler.utils import AssemblerException
 import pytest
 
+
 def test_unknown_reg():
     program = '''
         .data
@@ -13,8 +14,9 @@ def test_unknown_reg():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "Unknown register" in str(excinfo.value)
+
 
 def test_ATH_arguments():
     program = '''
@@ -25,7 +27,7 @@ def test_ATH_arguments():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "ATH: OP" in str(excinfo.value)
     program = '''
         .text
@@ -35,7 +37,7 @@ def test_ATH_arguments():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "ATH: M" in str(excinfo.value)
     program = '''
         .text
@@ -45,8 +47,9 @@ def test_ATH_arguments():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "ATH: B" in str(excinfo.value)
+
 
 def test_too_big_LDV():
     program = '''
@@ -57,8 +60,9 @@ def test_too_big_LDV():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "LDV: Value" in str(excinfo.value)
+
 
 def test_too_big_LDA():
     program = '''
@@ -69,8 +73,9 @@ def test_too_big_LDA():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "LDA: Memory address" in str(excinfo.value)
+
 
 def test_too_big_LDM():
     program = '''
@@ -81,8 +86,9 @@ def test_too_big_LDM():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "LDM: Memory address" in str(excinfo.value)
+
 
 def test_too_big_JMP():
     program = '''
@@ -93,5 +99,5 @@ def test_too_big_JMP():
         HLT
     '''
     with pytest.raises(AssemblerException) as excinfo:
-        c = execute_code(program)
+        execute_code(program)
     assert "JMP: Memory address" in str(excinfo.value)

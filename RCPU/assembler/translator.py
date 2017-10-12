@@ -1,18 +1,20 @@
 import RCPU.architecture as arch
 from . import utils
-reverse_instruction_mapping = {i:b for b,i in arch.instruction_mapping.items()}
-reverse_register_mapping = {i:b for b,i in arch.register_mapping.items()}
+reverse_instruction_mapping = {i: b for b, i in arch.instruction_mapping.items()}
+reverse_register_mapping = {i: b for b, i in arch.register_mapping.items()}
+
 
 def reg_to_bin(reg):
     '''Converts a register (like 'A') to the register value '0b00'.'''
     try:
         return reverse_register_mapping[reg.upper()]
     # Hardcoded unused registers in expanders
-    except KeyError as k:
+    except KeyError:
         if reg == '0':
             return 0
         else:
             raise utils.AssemblerException('Unknown register: {}'.format(reg))
+
 
 class InstructionTranslator:
     '''Translates instructions into binary. Doesn't support symbolic arguments'''
@@ -69,7 +71,7 @@ class InstructionTranslator:
     def ATH(cls, arg):
         D = reg_to_bin(arg[0])
         S = reg_to_bin(arg[1])
-        OP = int(arg[2]) # Just O might be confused with 0
+        OP = int(arg[2])  # Just O might be confused with 0
         M = int(arg[3])
         B = int(arg[4])
         if OP > 0b1111 or OP < 0:

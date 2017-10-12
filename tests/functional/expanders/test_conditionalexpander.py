@@ -1,5 +1,6 @@
 from tests.functional.utils import execute_code
 
+
 def test_JGE():
     program = '''
         .text
@@ -18,6 +19,7 @@ def test_JGE():
     for reg, val in enumerate([456, 123, 789, 0]):
         assert c.registers.get(reg) == val
 
+
 def test_JEQ():
     program = '''
         .text
@@ -35,11 +37,12 @@ def test_JEQ():
                 HLT
     '''
     c = execute_code(program.format(value=123))
-    assert c.registers._gp == [123,123,789,80]
+    assert c.registers._gp == [123, 123, 789, 80]
     c = execute_code(program.format(value=456))
-    assert c.registers._gp == [123,456,321,80]
+    assert c.registers._gp == [123, 456, 321, 80]
     c = execute_code(program.format(value=12))
-    assert c.registers._gp == [123,12,321,80]
+    assert c.registers._gp == [123, 12, 321, 80]
+
 
 def test_JNE():
     program = '''
@@ -58,11 +61,12 @@ def test_JNE():
                 HLT
     '''
     c = execute_code(program.format(value=123))
-    assert c.registers._gp == [123,123,321,80]
+    assert c.registers._gp == [123, 123, 321, 80]
     c = execute_code(program.format(value=456))
-    assert c.registers._gp == [123,456,789,80]
+    assert c.registers._gp == [123, 456, 789, 80]
     c = execute_code(program.format(value=12))
-    assert c.registers._gp == [123,12,789,80]
+    assert c.registers._gp == [123, 12, 789, 80]
+
 
 def test_JGT():
     program = '''
@@ -81,11 +85,12 @@ def test_JGT():
                 HLT
     '''
     c = execute_code(program.format(value=123))
-    assert c.registers._gp == [123,123,321,80]
+    assert c.registers._gp == [123, 123, 321, 80]
     c = execute_code(program.format(value=456))
-    assert c.registers._gp == [123,456,321,80]
+    assert c.registers._gp == [123, 456, 321, 80]
     c = execute_code(program.format(value=12))
-    assert c.registers._gp == [123,12,789,80]
+    assert c.registers._gp == [123, 12, 789, 80]
+
 
 def test_JLE():
     program = '''
@@ -104,8 +109,8 @@ def test_JLE():
                 HLT
     '''
     c = execute_code(program.format(value=123))
-    assert c.registers._gp == [123,123,789,80]
+    assert c.registers._gp == [123, 123, 789, 80]
     c = execute_code(program.format(value=456))
-    assert c.registers._gp == [123,456,789,80]
+    assert c.registers._gp == [123, 456, 789, 80]
     c = execute_code(program.format(value=12))
-    assert c.registers._gp == [123,12,321,80]
+    assert c.registers._gp == [123, 12, 321, 80]

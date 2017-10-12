@@ -1,5 +1,6 @@
 from .utils import execute_code
 
+
 def test_push():
     c = execute_code('''
         .text
@@ -15,8 +16,9 @@ def test_push():
         PSH D
         HLT
     ''')
-    for i in [26,24,22,20]:
+    for i in [26, 24, 22, 20]:
         assert c.stack.pop() == i
+
 
 def test_pop():
     c = execute_code('''
@@ -37,5 +39,5 @@ def test_pop():
         POP D
         HLT
     ''')
-    for reg, value in enumerate([26,24,22,20]):
+    for reg, value in enumerate([26, 24, 22, 20]):
         assert c.registers.get(reg) == value

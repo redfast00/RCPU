@@ -1,6 +1,7 @@
 from .utils import init_kernel
 import pytest
 
+
 def test_printf(capsys):
     k = init_kernel()
     # This loads the third argument of printf, a number
@@ -17,14 +18,16 @@ def test_printf(capsys):
     out, err = capsys.readouterr()
     assert out == "FMT: this is a test,443,%"
 
+
 def test_printf_raises():
     k = init_kernel()
-    k.write_string(40,"TEST %k")
+    k.write_string(40, "TEST %k")
     k.stack.push(40)
     k.stack.push(0)
     with pytest.raises(Exception) as excinfo:
         k.syscall()
     assert "Error in printf" in str(excinfo.value)
+
 
 def test_printf_runs_into_end_of_memory(capsys):
     k = init_kernel()

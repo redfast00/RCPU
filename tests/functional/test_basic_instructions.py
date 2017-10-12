@@ -1,5 +1,6 @@
 from .utils import execute_code
 
+
 def test_JMP():
     program = '''
         .data
@@ -18,8 +19,9 @@ def test_JMP():
             JMP return:
     '''
     c = execute_code(program)
-    for reg, value in enumerate([20,22,24]):
+    for reg, value in enumerate([20, 22, 24]):
         assert c.registers.get(reg) == value
+
 
 def test_JMR():
     program = '''
@@ -40,8 +42,9 @@ def test_JMR():
             JMR A
     '''
     c = execute_code(program)
-    for reg, value in enumerate([20,22,24]):
+    for reg, value in enumerate([20, 22, 24]):
         assert c.registers.get(reg) == value
+
 
 def test_JLT():
     program = '''
@@ -84,6 +87,7 @@ def test_JLT():
     '''
     c = execute_code(program)
     assert c.registers.get(0) == 321
+
 
 def test_MOV():
     program = '''

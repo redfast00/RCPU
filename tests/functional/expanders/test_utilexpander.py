@@ -1,5 +1,6 @@
 from tests.functional.utils import execute_code
 
+
 def test_LDV16():
     program = '''
         .text
@@ -11,6 +12,7 @@ def test_LDV16():
     for i in [0, 0xFF, 0xEFF, 0xFFFF]:
         c = execute_code(program.format(value=i))
         assert c.registers.get(0) == i
+
 
 def test_SWP():
     program = '''

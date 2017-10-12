@@ -5,6 +5,7 @@ import string
 LABEL_CHAR = ':'
 ALLOWED_LABEL_NAME_CHARS = string.ascii_letters + string.digits + '_-'
 
+
 def parse_resource(line):
     parts = line.split(' ', 2)
     if len(parts) == 2:
@@ -21,21 +22,26 @@ def parse_resource(line):
     else:
         raise utils.AssemblerException("Unknown resource type in .data: {}".format(line))
 
+
 def parse_global(line):
     assert line.startswith(".global")
     parts = line.split()
     assert len(parts) == 2
     return parts[1]
 
+
 def is_label(line):
     # TODO check valid label chars
     return line.endswith(LABEL_CHAR) and ' ' not in line
 
+
 def is_instruction(line):
     return not is_label(line)
 
+
 def is_reference(part):
     return part.startswith(".")
+
 
 def parse_instruction(line):
     parts = line.split(' ', 1)
@@ -49,6 +55,7 @@ def parse_instruction(line):
         instruction = parts[0]
         arguments = []
     return instruction.upper(), arguments
+
 
 def unparse_instruction(instruction, arguments):
     if arguments:
