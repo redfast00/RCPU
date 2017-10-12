@@ -9,7 +9,7 @@ def reg_to_bin(reg):
     try:
         return reverse_register_mapping[reg.upper()]
     # Hardcoded unused registers in expanders
-    except KeyError as k:
+    except KeyError:
         if reg == '0':
             return 0
         else:
