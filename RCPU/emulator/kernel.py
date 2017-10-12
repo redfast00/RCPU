@@ -1,5 +1,4 @@
 import sys
-from RCPU.utils import get_character
 
 class KernelException(Exception):
     pass
@@ -14,6 +13,7 @@ class Kernel:
         }
 
     def read_string(self, memory_address):
+        '''Helper function to read null-terminated string from memory'''
         result = ''
         for charcode in self.RAM.get_raw()[memory_address:]:
             if charcode == 0:
@@ -22,6 +22,7 @@ class Kernel:
         return result
 
     def write_string(self, memory_address, string):
+        '''Helper function to write a string followed by a null-terminator to memory'''
         for i, char in enumerate(string):
             self.RAM.set(memory_address + i, ord(char))
         self.RAM.set(memory_address + len(string), 0)
@@ -105,7 +106,7 @@ class Kernel:
         '''
         stream_num = self.stack.pop()
         infile = self.get_file(stream_num)
-        char = get_character(file=infile)
+        char = infile.read(1)
         self.stack.push(ord(char))
 
 

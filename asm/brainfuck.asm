@@ -41,6 +41,11 @@
     .char_input 44
     .char_forward_cond_jump 91
     .char_backward_cond_jump 93
+    
+    ;
+    ; Strings
+    ;
+    .done_parsing string "Done parsing\n"
 
 .text
 .global main:
@@ -51,6 +56,12 @@
         CAL D
         LDV D, input_program:
         CAL D
+        LDV D, .done_parsing
+        PSH D
+        LDV D, .sys_printf
+        PSH D
+        SYS
+        
         while_true_do_mainloop:
             LDV D, mainloop:
             CAL D
