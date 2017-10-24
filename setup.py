@@ -11,8 +11,8 @@ setup(name='RCPU',
       packages=find_packages(exclude=('tests.*', 'tests',)),
       entry_points={
           'console_scripts': [
-              'assemble = RCPU.assemble:main',
-              'emulate = RCPU.emulate:main'
+              'rcpu_assemble = RCPU.assemble:main',
+              'rcpu_emulate = RCPU.emulate:main'
           ]
       }
       )

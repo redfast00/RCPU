@@ -37,8 +37,8 @@ python setup.py install
 ```
 and then you can run the commands like:
 ```
-assemble asm/printf.asm printf.out
-emulate printf.out
+rcpu_assemble asm/printf.asm printf.out
+rcpu_emulate printf.out
 ```
 
 ## General purpose registers
