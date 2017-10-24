@@ -141,7 +141,8 @@ main:
 # Roadmap
 
 - [ ] Assembler
-    - [ ] add support for including files (\*.inc), write .inc file for all syscalls
+    - [x] add support for including files (\*.inc)
+    - [ ] write .inc file for all syscalls
     - [ ] add support for macro's
     - [ ] add more expanders
         - [x] conditional branching (JNE, JGE, JEQ, JGT, JLE)

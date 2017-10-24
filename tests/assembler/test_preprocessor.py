@@ -27,3 +27,8 @@ def test_split_into_sections():
     assert p.split_into_sections(lines) == ([], ["MOV A, 5"])
     lines = [".text", "MOV A, 5"]
     assert p.split_into_sections(lines) == ([], ["MOV A, 5"])
+
+
+def test_find_index():
+    assert p.find_index(['.test', 'test', 't'], '.test') == 0
+    assert p.find_index(['one', 'two', 'three'], 'four') is None
