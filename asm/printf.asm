@@ -1,6 +1,6 @@
+include syscall
 .data
-  .format string '%d test'
-  .printf 0
+  .format string '%d test\n'
 
 .text
   .global main:
@@ -11,7 +11,7 @@ main:
   PSH A
   LDV A, .format
   PSH A
-  LDV A, .printf
+  LDV A, .sys_printf
   PSH A
   SYS
   HLT
