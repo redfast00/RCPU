@@ -91,20 +91,20 @@ rcpu_emulate printf.out
 
 ## Arithmetic Operation table
 
-|Operation    |Value  |
-|-------------|-------|
-|`Add`        |`0000` |
-|`Subtract`   |`0001` |
-|`Multiply`   |`0010` |
-|`Divide`     |`0011` |
-|`Left shift` |`0100` |
-|`Right shift`|`0101` |
-|`And`        |`0110` |
-|`Or`         |`0111` |
-|`Xor`        |`1000` |
-|`Not`        |`1001` |
-|`Increment`  |`1010` |
-|`Decrement`  |`1011` |
+| Operation     | Value  | Notes                      |
+|---------------|--------|----------------------------|
+| `Add`         | `0000` |                            |
+| `Subtract`    | `0001` | `dst - src`                |
+| `Multiply`    | `0010` |                            |
+| `Divide`      | `0011` | `dst / src`. Rounds down.  |
+| `Left shift`  | `0100` | Operates on `src` register |
+| `Right shift` | `0101` | Operates on `src` register |
+| `And`         | `0110` |                            |
+| `Or`          | `0111` |                            |
+| `Xor`         | `1000` |                            |
+| `Not`         | `1001` | Operates on `src` register |
+| `Increment`   | `1010` | Operates on `dst` register |
+| `Decrement`   | `1011` | Operates on `dst` register |
 
 ## System calls
 Syscall numbers and arguments are passed via the stack. For example the assembly code to call `printf '%d' 20`:
