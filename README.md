@@ -132,11 +132,11 @@ main:
 
 ### Syscall table
 
-| Number | Function | Arguments                | Returns      | Notes                                                                             |
-|--------|----------|--------------------------|--------------|-----------------------------------------------------------------------------------|
-| `0`    | `printf` | `fmt, ...`               | `void`           | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers. |
-| `1`    | `fgets`  | `*str, size, stream_num` | `chars_read` | Only supports stdin for now. Returns the number of characters read.               |
-| `2`    | `getc`   | `stream_num`             | `char_read`  | Returns the ASCII code of the character that was read.                            |
+| Number | Function | Arguments                | Returns      | Notes                                                                                                         |
+|--------|----------|--------------------------|--------------|---------------------------------------------------------------------------------------------------------------|
+| `0`    | `printf` | `fmt, ...`               | `void`       | Only supports `%s` and `%d` for respectively zero-terminated strings and numbers. Use `%%` for a literal `%`. |
+| `1`    | `fgets`  | `*str, size, stream_num` | `chars_read` | Only supports stdin for now. Returns the number of characters read.                                           |
+| `2`    | `getc`   | `stream_num`             | `char_read`  | Returns the ASCII code of the character that was read.                                                        |
 
 # Roadmap
 
