@@ -12,6 +12,7 @@ This project consists of:
 - Tests, you'll never guess it, also written in Python.
 - A Brainfuck interpreter written in assembly that can be assembled with the included assembler.
 
+See also [RCPU_C](https://github.com/redfast00/RCPU_C), a somewhat limited RCPU emulator written in C.
 ## Installation and usage
 
 Just clone the GitHub repo
