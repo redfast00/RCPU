@@ -18,7 +18,7 @@ def parse_resource(line):
         size = int(parts[2])
         if size < 1:
             raise utils.AssemblerException("Size of allocated memory too small: {}".format(line))
-        return parts[0], '_' * (size - 1)
+        return parts[0], '\0' * (size - 1)
     else:
         raise utils.AssemblerException("Unknown resource type in .data: {}".format(line))
 

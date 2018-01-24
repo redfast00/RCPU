@@ -25,7 +25,7 @@ The `.data` section contains data like strings and constants. There are three
 - Allocations look like `.alloc allocate 5`: `.alloc` is the name of the label and
  `5` is the size of the buffer that will be allocated when the binary is assembled.
  Memory will only be allocated if the label is used in the `.text` section.
- The allocated memory will be "dirty", so you can't count on it having a certain value.
+ The allocated memory will be initialized with zeroes.
 
 ### .text section
 The `.text` section contains an entrypoint, instructions and labels:
