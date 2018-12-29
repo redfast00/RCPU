@@ -1,27 +1,13 @@
 language: python
 python:
   - 2.7
-  - 3.3
   - 3.4
   - 3.5
+  - 3.6
   - pypy
-  - pypy3.3-5.5-alpha
-env:
-  - PYTEST=2.4.2
-  - PYTEST=2.5.2
-  - PYTEST=2.6.4
-  - PYTEST=2.7.3
-  - PYTEST=2.8.7
-matrix:
-  exclude:
-    - python: 3.5
-      env: PYTEST=2.4.2
-    - python: 3.5
-      env: PYTEST=2.5.2
-    - python: 3.5
-      env: PYTEST=2.6.4
+  - pypy3.5
 install:
-  - pip install -q pytest==$PYTEST
+  - pip install -q pytest
   - pip install -r requirements.txt
 script:
     - py.test --cov=./
