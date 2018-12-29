@@ -60,6 +60,17 @@ rcpu_emulate printf.out
 
 ## Instructions
 
+Every instruction consists of 16 bits: the last 4 bits are the opcode
+(indicating which instruction is used), the first 12 bits indicate
+the arguments.
+For example, the instruction `00000000 11 00 0000` (spaces added for
+clarity) is a `MOV` instruction that copies the value in the `A`
+register to the `D` register.
+
+If there are any `X` in the instructions, that means that the value
+is ignored. It's good practice to set these to 0.
+
+
 |Instruction|Arguments|16 bit representation |Description|
 |-----------|---------|-------------------------|-------------|
 |`MOV`| `D, S`          | `XXXXXXXXSSDD0000` | Move value at source register to destination register|
@@ -81,6 +92,10 @@ rcpu_emulate printf.out
 
 ## Pseudo-instructions
 
+These pseudo-instructions aren't real instructions, but are macros
+implemented in the assembler that can consist of multiple
+instructions.
+
 | Instruction                    | Description                                                                                                                                                                                                                                                                      |
 |--------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `SWP D, S`                     | Swaps the values in the source and destination registers.                                                                                                                                                                                                                        |
@@ -91,6 +106,9 @@ rcpu_emulate printf.out
 | `NOT D`                        | Flips every bit of the destination register.                                                                                                                                                                                                                                     |
 
 ## Arithmetic Operation table
+
+These are the possible values for the `O` (operation) argument in
+the `ATH` instruction.
 
 | Operation     | Value  | Notes                      |
 |---------------|--------|----------------------------|
@@ -108,7 +126,11 @@ rcpu_emulate printf.out
 | `Decrement`   | `1011` | Operates on `dst` register |
 
 ## System calls
-Syscall numbers and arguments are passed via the stack. For example the assembly code to call `printf '%d' 20`:
+Syscall numbers and arguments are passed via the stack. The syscall
+number should be on top of the stack, followed by any arguments
+needed.
+
+For example the assembly code to call `printf '%d' 20`:
 ```
 .data
   .format string '%d'
@@ -155,8 +177,7 @@ main:
     - [ ] parsing input from stdin
     - [ ] reading/writing to files
 - [ ] Docs
-    - Add branching pseudo-instructions + mention side effects (none :) )
-    - Split README into multiple files
+    - [X] Add branching pseudo-instructions + mention side effects (none :) )
 - [ ] Make a compiler for a certain language (maybe a language like Forth?)
 - [x] Write more tests, get coverage to 100%
     - [x] Assembler and emulator scripts
