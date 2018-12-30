@@ -40,7 +40,7 @@ def assemble(lines):
 
 
 def pack_binary(binary):
-    return [struct.pack('H', instruction) for instruction in binary]
+    return [struct.pack('>H', instruction) for instruction in binary]
 
 
 def main():  # pragma: no cover

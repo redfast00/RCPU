@@ -68,7 +68,8 @@ clarity) is a `MOV` instruction that copies the value in the `A`
 register to the `D` register.
 
 If there are any `X` in the instructions, that means that the value
-is ignored. It's good practice to set these to 0.
+is ignored. It's good practice to set these to 0. Note that when assembling to a file,
+these instructions are big endian.
 
 
 |Instruction|Arguments|16 bit representation |Description|

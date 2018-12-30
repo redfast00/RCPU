@@ -7,7 +7,8 @@ import logging
 
 def unpack(raw):
     '''Unpacks raw into a list of binary instructions'''
-    return struct.unpack("H" * (len(raw) // 2), raw)
+    # '>' means big endian
+    return struct.unpack(">" + "H" * (len(raw) // 2), raw)
 
 
 def cpu_loop(c):
