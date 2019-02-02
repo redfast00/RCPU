@@ -18,6 +18,9 @@ def split_into_sections(lines):
     dataloc = find_index(lines, '.data')
     textloc = find_index(lines, '.text')
 
+    if textloc is None:
+        raise ValueError(".text section not found")
+
     if (dataloc is not None) and (textloc - dataloc > 1):
         data = lines[dataloc + 1:textloc]
     text = lines[textloc + 1:]
