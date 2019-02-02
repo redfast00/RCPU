@@ -37,3 +37,7 @@ class UtilExpander(BaseExpander):
             "POP {S}"
         ]
         return fill_instructions(instructions, F=first, S=second)
+
+    @BaseExpander.instruction
+    def NOP(arg):
+        return ["MOV A, A"]
