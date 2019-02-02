@@ -29,11 +29,11 @@ class ArithmeticExpander(BaseExpander):
 
     @BaseExpander.instruction
     def LSH(arg):
-        return ['ATH 0,{s},4,1,{b}'.format(s=arg[0], b=arg[1])]
+        return ['ATH {s},{s},4,1,{b}'.format(s=arg[0], b=arg[1])]
 
     @BaseExpander.instruction
     def RSH(arg):
-        return ['ATH 0,{s},5,1,{b}'.format(s=arg[0], b=arg[1])]
+        return ['ATH {s},{s},5,1,{b}'.format(s=arg[0], b=arg[1])]
 
     @BaseExpander.instruction
     def AND(arg):
@@ -49,12 +49,12 @@ class ArithmeticExpander(BaseExpander):
 
     @BaseExpander.instruction
     def NOT(arg):
-        return ['ATH 0,{s},9,1,0'.format(s=arg[0])]
+        return ['ATH {s},{s},9,1,0'.format(s=arg[0])]
 
     @BaseExpander.instruction
     def INC(arg):
-        return ['ATH {d},0,10,0,0'.format(d=arg[0])]
+        return ['ATH {d},{d},10,0,0'.format(d=arg[0])]
 
     @BaseExpander.instruction
     def DEC(arg):
-        return ['ATH {d},0,11,0,0'.format(d=arg[0])]
+        return ['ATH {d},{d},11,0,0'.format(d=arg[0])]
