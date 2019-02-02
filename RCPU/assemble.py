@@ -50,14 +50,21 @@ def main():  # pragma: no cover
     parser.add_argument('outfile', type=argparse.FileType('wb'))
     parser.add_argument('--debug', action='store_const', const=logging.DEBUG,
                         default=logging.INFO, dest='loglevel')
+    parser.add_argument('--rom', action='store_true', help='Create ROM file for RCPU_FPGA')
     args = parser.parse_args()
 
     logging.basicConfig(level=args.loglevel, format='%(levelname)s: %(message)s')
     lines = args.infile.readlines()
     assembled = assemble(lines)
-    packed = pack_binary(assembled)
-    for instruction in packed:
-        args.outfile.write(instruction)
+    if args.rom:
+        if len(assembled) > 4096:
+            logging.warning("Assembled code too big for ROM file")
+        for word in assembled[:4096]:
+            args.outfile.write(("%04x\n" % word).encode('ascii'))
+    else:
+        packed = pack_binary(assembled)
+        for instruction in packed:
+            args.outfile.write(instruction)
 
 
 if __name__ == '__main__':
