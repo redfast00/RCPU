@@ -83,7 +83,7 @@ these instructions are big endian.
 |`ATH`| `D, S, O, M, B` | `BBBMOOOOSSDD0110` | Perform an arithmetic operation on the source and destination registers. O specifies the operation (listed below) and M is the mode, where 0 = place result in destination register and 1 = place result in source register. If the instruction is right or left shift then B specifies the shifting value|
 |`CAL`| `D`             | `XXXXXXXXXXDD0111` | Call a function in memory pointed at by the destination register|
 |`RET`|                 | `XXXXXXXXXXXX1000` | Return from function|
-|`JLT`| `D, S`          | `XXXXXXXXSSDD1001` | Jump to memory address pointed at by the source register, if value in the A register is less than value in destination register|
+|`JLT`| `D, S`          | `XXXXXXXXSSDD1001` | Jump to memory address pointed to by the source register, if value in the `A` register is less than value in destination register|
 |`PSH`| `S`             | `XXXXXXXXSSXX1010` | Push the value in source register onto the stack|
 |`POP`| `D`             | `XXXXXXXXXXDD1011` | Pop the stack into the destination register|
 |`SYS`|                 | `XXXXXXXXXXXX1100` | Perform a system call. This is described below in more detail.|
