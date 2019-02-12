@@ -35,7 +35,7 @@ class CPU:
         instruction = self.fetch()
         # Increments instruction pointer after fetch and
         #  before execute, so JMP works properly
-        self.registers.ip = (self.registers.ip +  1) % 0x10000
+        self.registers.ip = (self.registers.ip + 1) % 0x10000
         opcode, arguments = self.decode(instruction)
         self.execute(opcode, arguments)
 
