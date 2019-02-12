@@ -109,4 +109,8 @@ class Kernel:
         stream_num = self.stack.pop()
         infile = self.get_file(stream_num)
         char = infile.read(1)
+
+        if not char:
+            raise KernelException("No char to read")
+
         self.stack.push(ord(char))
