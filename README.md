@@ -13,6 +13,10 @@ This project consists of:
 - A Brainfuck interpreter written in assembly that can be assembled with the included assembler.
 
 See also [RCPU_C](https://github.com/redfast00/RCPU_C), a somewhat limited RCPU emulator written in C.
+
+See also [RCPU_FPGA](https://github.com/redfast00/RCPU_FPGA) for an actual implementation of RCPU
+in hardware.
+
 ## Installation and usage
 
 Just clone the GitHub repo
