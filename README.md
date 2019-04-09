@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/redfast00/RCPU/branch/master/graph/badge.svg)](https://codecov.io/gh/redfast00/RCPU)
 # Documentation for RCPU
 
-This is a VM CPU emulator written in Python, without dependencies. This project
+This is a CPU emulator written in Python, without dependencies. This project
 is compatible with both Python 2.7 and 3.x.
 The size of instructions and memory cells are 16 bits.
 The specs for this project (CPU instructions and architecture) are heavily inspired by [16bitjs by Francis Strokes](https://francisstokes.wordpress.com/2017/07/20/16-bit-vm-in-javascript/).
