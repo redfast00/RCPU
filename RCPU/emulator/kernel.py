@@ -60,6 +60,8 @@ class Kernel:
                     result += str(self.stack.pop())
                 elif next_char == 's':
                     result += self.read_string(self.stack.pop())
+                elif next_char == 'c':
+                    result += chr(self.stack.pop())
                 else:
                     raise KernelException("Error in printf: '{}'".format(format_string))
             else:
