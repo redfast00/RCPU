@@ -67,6 +67,7 @@ class Kernel:
             else:
                 result += char
         sys.stdout.write(result)
+        sys.stdout.flush()
         return result
 
     def syscall_1(self):
